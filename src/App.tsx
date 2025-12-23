@@ -25,7 +25,16 @@ function AppRoutes() {
                         path="dashboard"
                         element={<Navigate to="/assets" />}
                     />
-                    <Route path="assets" element={<AssetIndexView />} />
+
+                    <Route path="assets">
+                        <Route index element={<AssetIndexView />} />
+                        <Route path="create" element={<AssetCreateView />} />
+
+                        <Route path=":id">
+                            <Route index element={<AssetDetailView />} />
+                            <Route path="edit" element={<AssetEditView />} />
+                        </Route>
+                    </Route>
 
                     <Route path="offices">
                         <Route index element={<OfficeIndexView />} />

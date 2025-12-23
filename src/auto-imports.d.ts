@@ -20,6 +20,11 @@ declare global {
   const AlertDialogTitle: typeof import('./components/ui/alert-dialog').AlertDialogTitle
   const AlertDialogTrigger: typeof import('./components/ui/alert-dialog').AlertDialogTrigger
   const AppSidebar: typeof import('./components/app-sidebar').AppSidebar
+  const AssetCreateForm: typeof import('./components/asset-create-form').AssetCreateForm
+  const AssetCreateView: typeof import('./views/asset-create-view').AssetCreateView
+  const AssetDetailView: typeof import('./views/asset-detail-view').AssetDetailView
+  const AssetEditForm: typeof import('./components/asset-edit-form').AssetEditForm
+  const AssetEditView: typeof import('./views/asset-edit-view').AssetEditView
   const AssetIndexView: typeof import('./views/asset-index-view').AssetIndexView
   const AssetListTable: typeof import('./components/asset-list-table').AssetListTable
   const AuthLayout: typeof import('./layouts/auth-layout').AuthLayout
@@ -39,6 +44,7 @@ declare global {
   const CardHeader: typeof import('./components/ui/card').CardHeader
   const CardTitle: typeof import('./components/ui/card').CardTitle
   const Checkbox: typeof import('./components/ui/checkbox').Checkbox
+  const ComplianceStatusBadge: typeof import('./views/asset-detail-view').ComplianceStatusBadge
   const ConditionBadge: typeof import('./components/asset-list-table').ConditionBadge
   const Controller: typeof import('react-hook-form').Controller
   const DeploymentStatusBadge: typeof import('./components/asset-list-table').DeploymentStatusBadge
@@ -89,6 +95,17 @@ declare global {
   const RoomCreateView: typeof import('./views/room-create-view').RoomCreateView
   const RoomEditForm: typeof import('./components/room-edit-form').RoomEditForm
   const RoomEditView: typeof import('./views/room-edit-view').RoomEditView
+  const Select: typeof import('./components/ui/select').Select
+  const SelectContent: typeof import('./components/ui/select').SelectContent
+  const SelectGroup: typeof import('./components/ui/select').SelectGroup
+  const SelectGroupLabel: typeof import('./components/ui/select').SelectGroupLabel
+  const SelectItem: typeof import('./components/ui/select').SelectItem
+  const SelectLabel: typeof import('./components/ui/select').SelectLabel
+  const SelectScrollDownButton: typeof import('./components/ui/select').SelectScrollDownButton
+  const SelectScrollUpButton: typeof import('./components/ui/select').SelectScrollUpButton
+  const SelectSeparator: typeof import('./components/ui/select').SelectSeparator
+  const SelectTrigger: typeof import('./components/ui/select').SelectTrigger
+  const SelectValue: typeof import('./components/ui/select').SelectValue
   const Separator: typeof import('./components/ui/separator').Separator
   const Sheet: typeof import('./components/ui/sheet').Sheet
   const SheetClose: typeof import('./components/ui/sheet').SheetClose
@@ -139,6 +156,7 @@ declare global {
   const cache: typeof import('react').cache
   const cacheSignal: typeof import('react').cacheSignal
   const cn: typeof import('./lib/utils').cn
+  const createAssetFormSchema: typeof import('./schemas/asset-schema').createAssetFormSchema
   const createContext: typeof import('react').createContext
   const createOfficeFormSchema: typeof import('./schemas/office-schema').createOfficeFormSchema
   const createRef: typeof import('react').createRef
@@ -209,6 +227,9 @@ declare global {
   // @ts-ignore
   export type { ZInfer } from './lib/utils'
   import('./lib/utils')
+  // @ts-ignore
+  export type { CreateAssetFormInput } from './schemas/asset-schema'
+  import('./schemas/asset-schema')
   // @ts-ignore
   export type { LoginInput, LoginSuccess, LoginValidationError, LoginResponse } from './schemas/login-schema'
   import('./schemas/login-schema')
