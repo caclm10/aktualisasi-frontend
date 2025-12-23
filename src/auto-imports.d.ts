@@ -21,6 +21,7 @@ declare global {
   const AlertDialogTrigger: typeof import('./components/ui/alert-dialog').AlertDialogTrigger
   const AppSidebar: typeof import('./components/app-sidebar').AppSidebar
   const AssetIndexView: typeof import('./views/asset-index-view').AssetIndexView
+  const AssetListTable: typeof import('./components/asset-list-table').AssetListTable
   const AuthLayout: typeof import('./layouts/auth-layout').AuthLayout
   const Avatar: typeof import('./components/ui/avatar').Avatar
   const AvatarBadge: typeof import('./components/ui/avatar').AvatarBadge
@@ -38,7 +39,9 @@ declare global {
   const CardHeader: typeof import('./components/ui/card').CardHeader
   const CardTitle: typeof import('./components/ui/card').CardTitle
   const Checkbox: typeof import('./components/ui/checkbox').Checkbox
+  const ConditionBadge: typeof import('./components/asset-list-table').ConditionBadge
   const Controller: typeof import('react-hook-form').Controller
+  const DeploymentStatusBadge: typeof import('./components/asset-list-table').DeploymentStatusBadge
   const DropdownMenu: typeof import('./components/ui/dropdown-menu').DropdownMenu
   const DropdownMenuCheckboxItem: typeof import('./components/ui/dropdown-menu').DropdownMenuCheckboxItem
   const DropdownMenuContent: typeof import('./components/ui/dropdown-menu').DropdownMenuContent
@@ -153,6 +156,8 @@ declare global {
   const toast: typeof import('sonner').toast
   const use: typeof import('react').use
   const useActionState: typeof import('react').useActionState
+  const useAsset: typeof import('./hooks/use-asset').useAsset
+  const useAssetDetail: typeof import('./hooks/use-asset').useAssetDetail
   const useAuth: typeof import('./hooks/use-auth').useAuth
   const useCallback: typeof import('react').useCallback
   const useContext: typeof import('react').useContext

@@ -1,6 +1,8 @@
 import { PlusIcon } from "lucide-react";
 
 function AssetIndexView() {
+    const { assets } = useAsset();
+
     return (
         <>
             <PageHeader
@@ -16,6 +18,10 @@ function AssetIndexView() {
                     </Button>
                 }
             />
+
+            <div className="flex flex-col gap-6">
+                <AssetListTable data={assets} />
+            </div>
         </>
     );
 }
