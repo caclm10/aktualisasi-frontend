@@ -59,6 +59,7 @@ declare global {
   const LoginView: typeof import('./views/login-view').LoginView
   const MainLayout: typeof import('./layouts/main-layout').MainLayout
   const Outlet: typeof import('react-router').Outlet
+  const PageHeader: typeof import('./components/page-header').PageHeader
   const Separator: typeof import('./components/ui/separator').Separator
   const Sheet: typeof import('./components/ui/sheet').Sheet
   const SheetClose: typeof import('./components/ui/sheet').SheetClose
