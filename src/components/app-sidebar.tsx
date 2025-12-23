@@ -20,7 +20,7 @@ const menuItems = [
             },
             {
                 icon: Building2Icon,
-                title: "Kantor & Ruangan",
+                title: "Kantor",
                 to: "/offices",
             },
             {

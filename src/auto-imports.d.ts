@@ -58,6 +58,8 @@ declare global {
   const LoginForm: typeof import('./components/login-form').LoginForm
   const LoginView: typeof import('./views/login-view').LoginView
   const MainLayout: typeof import('./layouts/main-layout').MainLayout
+  const OfficeIndexView: typeof import('./views/office-index-view').OfficeIndexView
+  const OfficeListView: typeof import('./views/office-index-view').OfficeListView
   const Outlet: typeof import('react-router').Outlet
   const PageHeader: typeof import('./components/page-header').PageHeader
   const Separator: typeof import('./components/ui/separator').Separator

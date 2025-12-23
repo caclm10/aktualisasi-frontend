@@ -18,6 +18,7 @@ function AppRoutes() {
 
                 <Route element={<MainLayout />}>
                     <Route path="assets" element={<AssetIndexView />} />
+                    <Route path="offices" element={<OfficeIndexView />} />
                 </Route>
             </Routes>
         </BrowserRouter>
