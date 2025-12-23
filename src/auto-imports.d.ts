@@ -75,6 +75,8 @@ declare global {
   const OfficeCreateForm: typeof import('./components/office-create-form').OfficeCreateForm
   const OfficeCreateView: typeof import('./views/office-create-view').OfficeCreateView
   const OfficeDetailView: typeof import('./views/office-detail-view').OfficeDetailView
+  const OfficeEditForm: typeof import('./components/office-edit-form').OfficeEditForm
+  const OfficeEditView: typeof import('./views/office-edit-view').OfficeEditView
   const OfficeIndexView: typeof import('./views/office-index-view').OfficeIndexView
   const OfficeListTable: typeof import('./components/office-list-table').OfficeListTable
   const OfficeListView: typeof import("./views/office-index-view").OfficeListView
