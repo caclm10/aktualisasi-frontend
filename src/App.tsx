@@ -14,6 +14,8 @@ function AppRoutes() {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path="/" element={<Navigate to="/assets" />} />
+
                 <Route element={<AuthLayout />}>
                     <Route path="login" element={<LoginView />} />
                 </Route>

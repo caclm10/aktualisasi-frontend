@@ -23,7 +23,6 @@ function OfficeListTable({ data = [] }: OfficeListTableProps) {
                             <TableHead>Nama Kantor</TableHead>
                             <TableHead>PIC</TableHead>
                             <TableHead>Kontak</TableHead>
-                            <TableHead>Jumlah Ruangan</TableHead>
                             <TableHead className="w-20 pr-0 text-center">
                                 Aksi
                             </TableHead>
@@ -61,12 +60,6 @@ function OfficeListTable({ data = [] }: OfficeListTableProps) {
                                         <code className="text-muted-foreground font-mono text-xs">
                                             {office.picContact}
                                         </code>
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <span className="text-muted-foreground text-sm">
-                                            {office.rooms?.length ?? 0} ruangan
-                                        </span>
                                     </TableCell>
 
                                     <TableCell className="pr-0 text-center">
