@@ -1,14 +1,4 @@
-interface CreateOfficeOptions {
-    redirectTo?: string | null;
-}
-
-interface CreateRoomOptions {
-    redirectTo?: string | null;
-}
-
 export function useOffice() {
-    const navigate = useNavigate();
-
     const {
         data: offices,
         error,
@@ -18,24 +8,22 @@ export function useOffice() {
         http.get("/api/offices").then((res) => res.data.data as Office[]),
     );
 
-    async function createOffice(
-        data: CreateOfficeInput,
-        { redirectTo = "/offices" }: CreateOfficeOptions = {},
-    ) {
+    async function createOffice(data: CreateOfficeInput) {
         try {
-            await http.post("/api/offices", {
-                name: data.name,
-                picName: data.picName,
-                picContact: data.picContact,
-            });
+            const response = await http.post<{ data: { id: string } }>(
+                "/api/offices",
+                {
+                    name: data.name,
+                    picName: data.picName,
+                    picContact: data.picContact,
+                },
+            );
 
             await mutate();
 
-            if (redirectTo) {
-                navigate(redirectTo);
-            }
-
             toast.success("Kantor berhasil ditambahkan");
+
+            return response.data.data.id;
         } catch (error) {
             if (isHttpError(error) && error.response?.status === 422) {
                 throw new ValidationError(error.response.data.errors);
@@ -55,8 +43,6 @@ export function useOffice() {
 }
 
 export function useOfficeDetail(id: string) {
-    const navigate = useNavigate();
-
     const {
         data: office,
         error,
@@ -66,10 +52,7 @@ export function useOfficeDetail(id: string) {
         http.get(`/api/offices/${id}`).then((res) => res.data.data as Office),
     );
 
-    async function createRoom(
-        data: CreateRoomInput,
-        { redirectTo = `/offices/${id}` }: CreateRoomOptions = {},
-    ) {
+    async function createRoom(data: CreateRoomInput) {
         try {
             await http.post(`/api/offices/${id}/rooms`, {
                 name: data.name,
@@ -78,10 +61,6 @@ export function useOfficeDetail(id: string) {
             });
 
             await mutate();
-
-            if (redirectTo) {
-                navigate(redirectTo);
-            }
 
             toast.success("Ruangan berhasil ditambahkan");
         } catch (error) {
@@ -103,8 +82,6 @@ export function useOfficeDetail(id: string) {
 
             await mutate();
 
-            navigate(`/offices/${id}`);
-
             toast.success("Kantor berhasil diperbarui");
         } catch (error) {
             if (isHttpError(error) && error.response?.status === 422) {
@@ -118,8 +95,6 @@ export function useOfficeDetail(id: string) {
     async function deleteOffice() {
         try {
             await http.delete(`/api/offices/${id}`);
-
-            navigate("/offices");
 
             toast.success("Kantor berhasil dihapus");
         } catch (error) {
@@ -140,8 +115,6 @@ export function useOfficeDetail(id: string) {
             });
 
             await mutate();
-
-            navigate(`/offices/${id}`);
 
             toast.success("Ruangan berhasil diperbarui");
         } catch (error) {

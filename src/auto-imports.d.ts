@@ -82,6 +82,10 @@ declare global {
   const OfficeListView: typeof import("./views/office-index-view").OfficeListView
   const Outlet: typeof import('react-router').Outlet
   const PageHeader: typeof import('./components/page-header').PageHeader
+  const RoomCreateForm: typeof import('./components/room-create-form').RoomCreateForm
+  const RoomCreateView: typeof import('./views/room-create-view').RoomCreateView
+  const RoomEditForm: typeof import('./components/room-edit-form').RoomEditForm
+  const RoomEditView: typeof import('./views/room-edit-view').RoomEditView
   const Separator: typeof import('./components/ui/separator').Separator
   const Sheet: typeof import('./components/ui/sheet').Sheet
   const SheetClose: typeof import('./components/ui/sheet').SheetClose

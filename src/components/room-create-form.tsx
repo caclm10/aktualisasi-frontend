@@ -1,47 +1,51 @@
 import { SaveIcon } from "lucide-react";
 
-function OfficeCreateForm() {
-    const { createOffice } = useOffice();
+interface RoomCreateFormProps {
+    officeId: string;
+}
+
+function RoomCreateForm({ officeId }: RoomCreateFormProps) {
+    const { createRoom } = useOfficeDetail(officeId);
 
     const navigate = useNavigate();
 
     const formId = useId();
     const nameId = useId();
-    const picNameId = useId();
-    const picContactId = useId();
+    const floorId = useId();
+    const codeId = useId();
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const form = useForm<CreateOfficeInput>({
-        resolver: zodResolver(createOfficeFormSchema),
+    const form = useForm<CreateRoomInput>({
+        resolver: zodResolver(createRoomFormSchema),
         defaultValues: {
             name: "",
-            picName: "",
-            picContact: "",
+            floor: "",
+            code: "",
         },
     });
 
-    async function onSubmit(data: CreateOfficeInput) {
+    async function onSubmit(data: CreateRoomInput) {
         try {
             setIsLoading(true);
 
-            const newOfficeId = await createOffice(data);
+            await createRoom(data);
 
-            navigate(`/offices/${newOfficeId}`);
+            navigate(`/offices/${officeId}`);
         } catch (error) {
-            setFormErrors(error, form.setError);
-
             setIsLoading(false);
+
+            setFormErrors(error, form.setError);
         }
     }
 
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Tambah Kantor</CardTitle>
+                <CardTitle>Tambah Ruangan</CardTitle>
 
                 <CardDescription>
-                    Lengkapi informasi kantor baru yang akan didaftarkan
+                    Lengkapi informasi ruangan baru yang akan didaftarkan
                 </CardDescription>
             </CardHeader>
 
@@ -50,17 +54,42 @@ function OfficeCreateForm() {
                     <FieldGroup>
                         <Controller
                             control={form.control}
+                            name="code"
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel htmlFor={codeId}>
+                                        Kode Ruangan
+                                    </FieldLabel>
+
+                                    <Input
+                                        {...field}
+                                        id={codeId}
+                                        placeholder="R-101"
+                                        aria-invalid={fieldState.invalid}
+                                    />
+
+                                    {fieldState.invalid && (
+                                        <FieldError
+                                            errors={[fieldState.error]}
+                                        />
+                                    )}
+                                </Field>
+                            )}
+                        />
+
+                        <Controller
+                            control={form.control}
                             name="name"
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
                                     <FieldLabel htmlFor={nameId}>
-                                        Nama Kantor
+                                        Nama Ruangan
                                     </FieldLabel>
 
                                     <Input
                                         {...field}
                                         id={nameId}
-                                        placeholder="KPKNL Jakarta"
+                                        placeholder="Ruang Server Utama"
                                         aria-invalid={fieldState.invalid}
                                     />
 
@@ -75,42 +104,17 @@ function OfficeCreateForm() {
 
                         <Controller
                             control={form.control}
-                            name="picName"
+                            name="floor"
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor={picNameId}>
-                                        Nama PIC
+                                    <FieldLabel htmlFor={floorId}>
+                                        Lantai
                                     </FieldLabel>
 
                                     <Input
                                         {...field}
-                                        id={picNameId}
-                                        placeholder="Budi Santoso"
-                                        aria-invalid={fieldState.invalid}
-                                    />
-
-                                    {fieldState.invalid && (
-                                        <FieldError
-                                            errors={[fieldState.error]}
-                                        />
-                                    )}
-                                </Field>
-                            )}
-                        />
-
-                        <Controller
-                            control={form.control}
-                            name="picContact"
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor={picContactId}>
-                                        Kontak PIC
-                                    </FieldLabel>
-
-                                    <Input
-                                        {...field}
-                                        id={picContactId}
-                                        placeholder="081234567890"
+                                        id={floorId}
+                                        placeholder="1"
                                         aria-invalid={fieldState.invalid}
                                     />
 
@@ -130,7 +134,7 @@ function OfficeCreateForm() {
                 <Field orientation="horizontal" className="justify-end">
                     <Button type="submit" disabled={isLoading} form={formId}>
                         <SaveIcon />
-                        Simpan Kantor
+                        Simpan Ruangan
                     </Button>
                 </Field>
             </CardFooter>
@@ -138,4 +142,4 @@ function OfficeCreateForm() {
     );
 }
 
-export { OfficeCreateForm };
+export { RoomCreateForm };

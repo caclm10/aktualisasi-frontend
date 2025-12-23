@@ -30,8 +30,22 @@ function AppRoutes() {
                     <Route path="offices">
                         <Route index element={<OfficeIndexView />} />
                         <Route path="create" element={<OfficeCreateView />} />
-                        <Route path=":id" element={<OfficeDetailView />} />
-                        <Route path=":id/edit" element={<OfficeEditView />} />
+
+                        <Route path=":id">
+                            <Route index element={<OfficeDetailView />} />
+                            <Route path="edit" element={<OfficeEditView />} />
+
+                            <Route path="rooms">
+                                <Route
+                                    path="create"
+                                    element={<RoomCreateView />}
+                                />
+                                <Route
+                                    path=":roomId/edit"
+                                    element={<RoomEditView />}
+                                />
+                            </Route>
+                        </Route>
                     </Route>
                 </Route>
 

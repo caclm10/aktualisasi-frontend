@@ -8,6 +8,8 @@ interface OfficeEditFormProps {
 function OfficeEditForm({ officeId, initialData }: OfficeEditFormProps) {
     const { updateOffice } = useOfficeDetail(officeId);
 
+    const navigate = useNavigate();
+
     const formId = useId();
     const nameId = useId();
     const picNameId = useId();
@@ -37,6 +39,8 @@ function OfficeEditForm({ officeId, initialData }: OfficeEditFormProps) {
             setIsLoading(true);
 
             await updateOffice(data);
+
+            navigate(`/offices/${officeId}`);
         } catch (error) {
             setIsLoading(false);
 
