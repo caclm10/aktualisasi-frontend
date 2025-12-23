@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 
 function App() {
     return (
@@ -17,6 +17,10 @@ function AppRoutes() {
                 </Route>
 
                 <Route element={<MainLayout />}>
+                    <Route
+                        path="dashboard"
+                        element={<Navigate to="/assets" />}
+                    />
                     <Route path="assets" element={<AssetIndexView />} />
                     <Route path="offices" element={<OfficeIndexView />} />
                 </Route>
