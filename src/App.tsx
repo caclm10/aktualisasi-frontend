@@ -24,7 +24,11 @@ function AppRoutes() {
                         element={<Navigate to="/assets" />}
                     />
                     <Route path="assets" element={<AssetIndexView />} />
-                    <Route path="offices" element={<OfficeIndexView />} />
+
+                    <Route path="offices">
+                        <Route index element={<OfficeIndexView />} />
+                        <Route path="create" element={<OfficeCreateView />} />
+                    </Route>
                 </Route>
 
                 <Route path="*" element={<NotFoundView />} />

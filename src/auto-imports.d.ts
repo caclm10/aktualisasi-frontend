@@ -16,6 +16,7 @@ declare global {
   const AvatarGroup: typeof import('./components/ui/avatar').AvatarGroup
   const AvatarGroupCount: typeof import('./components/ui/avatar').AvatarGroupCount
   const AvatarImage: typeof import('./components/ui/avatar').AvatarImage
+  const BackButton: typeof import('./components/back-button').BackButton
   const Button: typeof import('./components/ui/button').Button
   const Card: typeof import('./components/ui/card').Card
   const CardAction: typeof import('./components/ui/card').CardAction
@@ -59,6 +60,8 @@ declare global {
   const LoginView: typeof import('./views/login-view').LoginView
   const MainLayout: typeof import('./layouts/main-layout').MainLayout
   const NotFoundView: typeof import('./views/not-found-view').NotFoundView
+  const OfficeCreateForm: typeof import('./components/office-create-form').OfficeCreateForm
+  const OfficeCreateView: typeof import('./views/office-create-view').OfficeCreateView
   const OfficeIndexView: typeof import('./views/office-index-view').OfficeIndexView
   const OfficeListTable: typeof import('./components/office-list-table').OfficeListTable
   const OfficeListView: typeof import('./views/office-index-view').OfficeListView
