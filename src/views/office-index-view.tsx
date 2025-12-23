@@ -1,6 +1,8 @@
 import { PlusIcon } from "lucide-react";
 
 function OfficeIndexView() {
+    const { offices } = useOffice();
+
     return (
         <>
             <PageHeader
@@ -16,6 +18,10 @@ function OfficeIndexView() {
                     </Button>
                 }
             />
+
+            <div className="flex flex-col gap-6">
+                <OfficeListTable data={offices} />
+            </div>
         </>
     );
 }

@@ -28,6 +28,8 @@ export default defineConfig({
                     swr: [["default", "useSWR"]],
 
                     "class-variance-authority": ["cva"],
+
+                    sonner: ["toast"],
                 },
                 {
                     from: "react",

@@ -60,6 +60,7 @@ declare global {
   const MainLayout: typeof import('./layouts/main-layout').MainLayout
   const NotFoundView: typeof import('./views/not-found-view').NotFoundView
   const OfficeIndexView: typeof import('./views/office-index-view').OfficeIndexView
+  const OfficeListTable: typeof import('./components/office-list-table').OfficeListTable
   const OfficeListView: typeof import('./views/office-index-view').OfficeListView
   const Outlet: typeof import('react-router').Outlet
   const PageHeader: typeof import('./components/page-header').PageHeader
@@ -97,6 +98,13 @@ declare global {
   const SidebarTrigger: typeof import('./components/ui/sidebar').SidebarTrigger
   const Skeleton: typeof import('./components/ui/skeleton').Skeleton
   const Suspense: typeof import('react').Suspense
+  const Table: typeof import('./components/ui/table').Table
+  const TableBody: typeof import('./components/ui/table').TableBody
+  const TableCell: typeof import('./components/ui/table').TableCell
+  const TableHead: typeof import('./components/ui/table').TableHead
+  const TableHeader: typeof import('./components/ui/table').TableHeader
+  const TableRow: typeof import('./components/ui/table').TableRow
+  const Toaster: typeof import('./components/ui/sonner').Toaster
   const Tooltip: typeof import('./components/ui/tooltip').Tooltip
   const TooltipContent: typeof import('./components/ui/tooltip').TooltipContent
   const TooltipProvider: typeof import('./components/ui/tooltip').TooltipProvider
@@ -107,7 +115,9 @@ declare global {
   const cacheSignal: typeof import('react').cacheSignal
   const cn: typeof import('./lib/utils').cn
   const createContext: typeof import('react').createContext
+  const createOfficeFormSchema: typeof import('./schemas/office-schema').createOfficeFormSchema
   const createRef: typeof import('react').createRef
+  const createRoomFormSchema: typeof import('./schemas/room-schema').createRoomFormSchema
   const cva: typeof import('class-variance-authority').cva
   const forwardRef: typeof import('react').forwardRef
   const http: typeof import('./lib/http').http
@@ -118,6 +128,7 @@ declare global {
   const memo: typeof import('react').memo
   const setFormErrors: typeof import('./lib/forms').setFormErrors
   const startTransition: typeof import('react').startTransition
+  const toast: typeof import('sonner').toast
   const use: typeof import('react').use
   const useActionState: typeof import('react').useActionState
   const useAuth: typeof import('./hooks/use-auth').useAuth
@@ -139,6 +150,8 @@ declare global {
   const useMemo: typeof import('react').useMemo
   const useNavigate: typeof import('react-router').useNavigate
   const useNavigationType: typeof import('react-router').useNavigationType
+  const useOffice: typeof import('./hooks/use-office').useOffice
+  const useOfficeDetail: typeof import('./hooks/use-office').useOfficeDetail
   const useOptimistic: typeof import('react').useOptimistic
   const useOutlet: typeof import('react-router').useOutlet
   const useOutletContext: typeof import('react-router').useOutletContext
@@ -172,4 +185,10 @@ declare global {
   // @ts-ignore
   export type { LoginInput, LoginSuccess, LoginValidationError, LoginResponse } from './schemas/login-schema'
   import('./schemas/login-schema')
+  // @ts-ignore
+  export type { CreateOfficeInput } from './schemas/office-schema'
+  import('./schemas/office-schema')
+  // @ts-ignore
+  export type { CreateRoomInput } from './schemas/room-schema'
+  import('./schemas/room-schema')
 }
