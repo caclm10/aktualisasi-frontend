@@ -24,6 +24,8 @@ function AppRoutes() {
                     <Route path="assets" element={<AssetIndexView />} />
                     <Route path="offices" element={<OfficeIndexView />} />
                 </Route>
+
+                <Route path="*" element={<NotFoundView />} />
             </Routes>
         </BrowserRouter>
     );
