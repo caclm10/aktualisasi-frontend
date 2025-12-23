@@ -19,9 +19,25 @@ export default defineConfig({
                 "react",
                 "react-router",
                 {
+                    "react-router": ["Outlet", "Link"],
+
                     "react-hook-form": ["useForm", "Controller"],
+
                     "@hookform/resolvers/zod": ["zodResolver"],
+
                     swr: [["default", "useSWR"]],
+
+                    "class-variance-authority": ["cva"],
+                },
+                {
+                    from: "react",
+                    imports: ["ComponentProps"],
+                    type: true,
+                },
+                {
+                    from: "class-variance-authority",
+                    imports: ["VariantProps"],
+                    type: true,
                 },
             ],
 

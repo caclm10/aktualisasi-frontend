@@ -7,7 +7,15 @@
 export {}
 declare global {
   const Activity: typeof import('react').Activity
+  const AppSidebar: typeof import('./components/app-sidebar').AppSidebar
+  const AssetIndexView: typeof import('./views/asset-index-view').AssetIndexView
   const AuthLayout: typeof import('./layouts/auth-layout').AuthLayout
+  const Avatar: typeof import('./components/ui/avatar').Avatar
+  const AvatarBadge: typeof import('./components/ui/avatar').AvatarBadge
+  const AvatarFallback: typeof import('./components/ui/avatar').AvatarFallback
+  const AvatarGroup: typeof import('./components/ui/avatar').AvatarGroup
+  const AvatarGroupCount: typeof import('./components/ui/avatar').AvatarGroupCount
+  const AvatarImage: typeof import('./components/ui/avatar').AvatarImage
   const Button: typeof import('./components/ui/button').Button
   const Card: typeof import('./components/ui/card').Card
   const CardAction: typeof import('./components/ui/card').CardAction
@@ -18,6 +26,21 @@ declare global {
   const CardTitle: typeof import('./components/ui/card').CardTitle
   const Checkbox: typeof import('./components/ui/checkbox').Checkbox
   const Controller: typeof import('react-hook-form').Controller
+  const DropdownMenu: typeof import('./components/ui/dropdown-menu').DropdownMenu
+  const DropdownMenuCheckboxItem: typeof import('./components/ui/dropdown-menu').DropdownMenuCheckboxItem
+  const DropdownMenuContent: typeof import('./components/ui/dropdown-menu').DropdownMenuContent
+  const DropdownMenuGroup: typeof import('./components/ui/dropdown-menu').DropdownMenuGroup
+  const DropdownMenuItem: typeof import('./components/ui/dropdown-menu').DropdownMenuItem
+  const DropdownMenuLabel: typeof import('./components/ui/dropdown-menu').DropdownMenuLabel
+  const DropdownMenuPortal: typeof import('./components/ui/dropdown-menu').DropdownMenuPortal
+  const DropdownMenuRadioGroup: typeof import('./components/ui/dropdown-menu').DropdownMenuRadioGroup
+  const DropdownMenuRadioItem: typeof import('./components/ui/dropdown-menu').DropdownMenuRadioItem
+  const DropdownMenuSeparator: typeof import('./components/ui/dropdown-menu').DropdownMenuSeparator
+  const DropdownMenuShortcut: typeof import('./components/ui/dropdown-menu').DropdownMenuShortcut
+  const DropdownMenuSub: typeof import('./components/ui/dropdown-menu').DropdownMenuSub
+  const DropdownMenuSubContent: typeof import('./components/ui/dropdown-menu').DropdownMenuSubContent
+  const DropdownMenuSubTrigger: typeof import('./components/ui/dropdown-menu').DropdownMenuSubTrigger
+  const DropdownMenuTrigger: typeof import('./components/ui/dropdown-menu').DropdownMenuTrigger
   const Field: typeof import('./components/ui/field').Field
   const FieldContent: typeof import('./components/ui/field').FieldContent
   const FieldDescription: typeof import('./components/ui/field').FieldDescription
@@ -31,10 +54,49 @@ declare global {
   const Fragment: typeof import('react').Fragment
   const Input: typeof import('./components/ui/input').Input
   const Label: typeof import('./components/ui/label').Label
+  const Link: typeof import('react-router').Link
   const LoginForm: typeof import('./components/login-form').LoginForm
   const LoginView: typeof import('./views/login-view').LoginView
+  const MainLayout: typeof import('./layouts/main-layout').MainLayout
+  const Outlet: typeof import('react-router').Outlet
   const Separator: typeof import('./components/ui/separator').Separator
+  const Sheet: typeof import('./components/ui/sheet').Sheet
+  const SheetClose: typeof import('./components/ui/sheet').SheetClose
+  const SheetContent: typeof import('./components/ui/sheet').SheetContent
+  const SheetDescription: typeof import('./components/ui/sheet').SheetDescription
+  const SheetFooter: typeof import('./components/ui/sheet').SheetFooter
+  const SheetHeader: typeof import('./components/ui/sheet').SheetHeader
+  const SheetTitle: typeof import('./components/ui/sheet').SheetTitle
+  const SheetTrigger: typeof import('./components/ui/sheet').SheetTrigger
+  const Sidebar: typeof import('./components/ui/sidebar').Sidebar
+  const SidebarContent: typeof import('./components/ui/sidebar').SidebarContent
+  const SidebarFooter: typeof import('./components/ui/sidebar').SidebarFooter
+  const SidebarGroup: typeof import('./components/ui/sidebar').SidebarGroup
+  const SidebarGroupAction: typeof import('./components/ui/sidebar').SidebarGroupAction
+  const SidebarGroupContent: typeof import('./components/ui/sidebar').SidebarGroupContent
+  const SidebarGroupLabel: typeof import('./components/ui/sidebar').SidebarGroupLabel
+  const SidebarHeader: typeof import('./components/ui/sidebar').SidebarHeader
+  const SidebarInput: typeof import('./components/ui/sidebar').SidebarInput
+  const SidebarInset: typeof import('./components/ui/sidebar').SidebarInset
+  const SidebarMenu: typeof import('./components/ui/sidebar').SidebarMenu
+  const SidebarMenuAction: typeof import('./components/ui/sidebar').SidebarMenuAction
+  const SidebarMenuBadge: typeof import('./components/ui/sidebar').SidebarMenuBadge
+  const SidebarMenuButton: typeof import('./components/ui/sidebar').SidebarMenuButton
+  const SidebarMenuItem: typeof import('./components/ui/sidebar').SidebarMenuItem
+  const SidebarMenuSkeleton: typeof import('./components/ui/sidebar').SidebarMenuSkeleton
+  const SidebarMenuSub: typeof import('./components/ui/sidebar').SidebarMenuSub
+  const SidebarMenuSubButton: typeof import('./components/ui/sidebar').SidebarMenuSubButton
+  const SidebarMenuSubItem: typeof import('./components/ui/sidebar').SidebarMenuSubItem
+  const SidebarProvider: typeof import('./components/ui/sidebar').SidebarProvider
+  const SidebarRail: typeof import('./components/ui/sidebar').SidebarRail
+  const SidebarSeparator: typeof import('./components/ui/sidebar').SidebarSeparator
+  const SidebarTrigger: typeof import('./components/ui/sidebar').SidebarTrigger
+  const Skeleton: typeof import('./components/ui/skeleton').Skeleton
   const Suspense: typeof import('react').Suspense
+  const Tooltip: typeof import('./components/ui/tooltip').Tooltip
+  const TooltipContent: typeof import('./components/ui/tooltip').TooltipContent
+  const TooltipProvider: typeof import('./components/ui/tooltip').TooltipProvider
+  const TooltipTrigger: typeof import('./components/ui/tooltip').TooltipTrigger
   const ValidationError: typeof import('./lib/errors').ValidationError
   const buttonVariants: typeof import('./components/ui/button').buttonVariants
   const cache: typeof import('react').cache
@@ -42,6 +104,7 @@ declare global {
   const cn: typeof import('./lib/utils').cn
   const createContext: typeof import('react').createContext
   const createRef: typeof import('react').createRef
+  const cva: typeof import('class-variance-authority').cva
   const forwardRef: typeof import('react').forwardRef
   const http: typeof import('./lib/http').http
   const isHttpError: typeof import('./lib/http').isHttpError
@@ -66,6 +129,7 @@ declare global {
   const useImperativeHandle: typeof import('react').useImperativeHandle
   const useInRouterContext: typeof import('react-router').useInRouterContext
   const useInsertionEffect: typeof import('react').useInsertionEffect
+  const useIsMobile: typeof import('./hooks/use-mobile').useIsMobile
   const useLayoutEffect: typeof import('react').useLayoutEffect
   const useLocation: typeof import('react-router').useLocation
   const useMemo: typeof import('react').useMemo
@@ -80,6 +144,7 @@ declare global {
   const useResolvedPath: typeof import('react-router').useResolvedPath
   const useRoutes: typeof import('react-router').useRoutes
   const useSWR: typeof import('swr').default
+  const useSidebar: typeof import('./components/ui/sidebar').useSidebar
   const useState: typeof import('react').useState
   const useSyncExternalStore: typeof import('react').useSyncExternalStore
   const useTransition: typeof import('react').useTransition
@@ -88,6 +153,12 @@ declare global {
 }
 // for type re-export
 declare global {
+  // @ts-ignore
+  export type { ComponentProps } from 'react'
+  import('react')
+  // @ts-ignore
+  export type { VariantProps } from 'class-variance-authority'
+  import('class-variance-authority')
   // @ts-ignore
   export type { HttpResponse } from './lib/http'
   import('./lib/http')

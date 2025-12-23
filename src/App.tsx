@@ -15,6 +15,10 @@ function AppRoutes() {
                 <Route element={<AuthLayout />}>
                     <Route path="login" element={<LoginView />} />
                 </Route>
+
+                <Route element={<MainLayout />}>
+                    <Route path="assets" element={<AssetIndexView />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     );
