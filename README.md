@@ -1,73 +1,99 @@
-# React + TypeScript + Vite
+# Aktualisasi (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Sistem Informasi Manajemen Jaringan & Inventaris**
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-19.x-61DAFB?style=for-the-badge&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7.x-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Bun](https://img.shields.io/badge/Bun-1.x-000000?style=for-the-badge&logo=bun&logoColor=white)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Repositori Frontend untuk aktualisasi dari aplikasi manajemen aset perangkat jaringan, dirancang sebagai antarmuka pengguna untuk mengelola aset perangkat jaringan dan log pemeliharaan di lingkungan instansi. Dibangun menggunakan **React** dengan **TypeScript** dan di-bundle menggunakan **Vite** untuk pengalaman pengembangan yang cepat.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Fitur Utama
 
-## Expanding the ESLint configuration
+- **Manajemen Aset**: Antarmuka lengkap untuk melihat, menambah, mengubah, dan menghapus data aset perangkat jaringan.
+- **Audit Trail Visual**:
+  - **Journey Logs**: Menampilkan riwayat mutasi/perpindahan aset antar ruangan.
+  - **Maintenance Logs**: Menampilkan riwayat teknis (Update OS, Perbaikan).
+- **Upload Gambar Aset**: Mendukung upload dan pengelolaan gambar aset.
+- **Dashboard**: Tampilan dashboard dengan statistik dan ringkasan data aset.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠️ Teknologi yang Digunakan
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Library UI**: React 19
+- **Bahasa**: TypeScript 5.9
+- **Build Tool**: Vite 7
+- **HTTP Client**: Axios / SWR
+- **Styling**: Tailwind CSS
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## ⚙️ Panduan Instalasi & Setup
+
+### Prasyarat
+
+- Bun >= 1.0
+
+### 1. Clone Repositori
+
+```bash
+git clone https://github.com/caclm10/aktualisasi-frontend.git
+cd aktualisasi-frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install Dependensi
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+bun install
 ```
+
+### 3. Konfigurasi Environment
+
+Buat file `.env` di root project dan sesuaikan konfigurasi berikut:
+
+```text
+VITE_API_URL=http://localhost:8000/api
+```
+
+> **Note:** Pastikan backend sudah berjalan di `http://localhost:8000` sebelum menjalankan frontend.
+
+### 4. Jalankan Development Server
+
+```bash
+bun run dev
+```
+
+Aplikasi frontend akan berjalan di `http://localhost:5173`
+
+### 5. Build untuk Production
+
+```bash
+bun run build
+```
+
+Hasil build akan tersedia di folder `dist/`.
+
+---
+
+## 🔗 Koneksi dengan Backend
+
+Frontend ini dirancang untuk bekerja dengan [Aktualisasi Backend](https://github.com/caclm10/aktualisasi-backend). Pastikan:
+
+1. Backend sudah berjalan dan dapat diakses
+2. CORS sudah dikonfigurasi dengan benar di backend (lihat `FRONTEND_URL` di `.env` backend)
+3. `VITE_API_URL` di frontend mengarah ke URL backend yang benar
+
+---
+
+## 📜 Scripts yang Tersedia
+
+| Script            | Deskripsi                                   |
+| ----------------- | ------------------------------------------- |
+| `bun run dev`     | Menjalankan development server dengan HMR   |
+| `bun run build`   | Build aplikasi untuk production             |
+| `bun run lint`    | Menjalankan ESLint untuk code quality check |
+| `bun run preview` | Preview hasil build production secara lokal |
