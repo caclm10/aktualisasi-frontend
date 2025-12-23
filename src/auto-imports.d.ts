@@ -7,6 +7,18 @@
 export {}
 declare global {
   const Activity: typeof import('react').Activity
+  const AlertDialog: typeof import('./components/ui/alert-dialog').AlertDialog
+  const AlertDialogAction: typeof import('./components/ui/alert-dialog').AlertDialogAction
+  const AlertDialogCancel: typeof import('./components/ui/alert-dialog').AlertDialogCancel
+  const AlertDialogContent: typeof import('./components/ui/alert-dialog').AlertDialogContent
+  const AlertDialogDescription: typeof import('./components/ui/alert-dialog').AlertDialogDescription
+  const AlertDialogFooter: typeof import('./components/ui/alert-dialog').AlertDialogFooter
+  const AlertDialogHeader: typeof import('./components/ui/alert-dialog').AlertDialogHeader
+  const AlertDialogMedia: typeof import('./components/ui/alert-dialog').AlertDialogMedia
+  const AlertDialogOverlay: typeof import('./components/ui/alert-dialog').AlertDialogOverlay
+  const AlertDialogPortal: typeof import('./components/ui/alert-dialog').AlertDialogPortal
+  const AlertDialogTitle: typeof import('./components/ui/alert-dialog').AlertDialogTitle
+  const AlertDialogTrigger: typeof import('./components/ui/alert-dialog').AlertDialogTrigger
   const AppSidebar: typeof import('./components/app-sidebar').AppSidebar
   const AssetIndexView: typeof import('./views/asset-index-view').AssetIndexView
   const AuthLayout: typeof import('./layouts/auth-layout').AuthLayout
@@ -62,9 +74,10 @@ declare global {
   const NotFoundView: typeof import('./views/not-found-view').NotFoundView
   const OfficeCreateForm: typeof import('./components/office-create-form').OfficeCreateForm
   const OfficeCreateView: typeof import('./views/office-create-view').OfficeCreateView
+  const OfficeDetailView: typeof import('./views/office-detail-view').OfficeDetailView
   const OfficeIndexView: typeof import('./views/office-index-view').OfficeIndexView
   const OfficeListTable: typeof import('./components/office-list-table').OfficeListTable
-  const OfficeListView: typeof import('./views/office-index-view').OfficeListView
+  const OfficeListView: typeof import("./views/office-index-view").OfficeListView
   const Outlet: typeof import('react-router').Outlet
   const PageHeader: typeof import('./components/page-header').PageHeader
   const Separator: typeof import('./components/ui/separator').Separator
