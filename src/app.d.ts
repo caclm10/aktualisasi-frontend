@@ -70,14 +70,13 @@ declare global {
     }
 
     interface CreateAssetInput {
-        roomId: string;
+        room: string;
         registerCode: string;
         serialNumber: string;
         hostname: string;
         brand: string;
         model: string;
         condition: AssetCondition;
-        deploymentStatus: AssetDeploymentStatus;
         ipVlan?: string | null;
         vlan?: string | null;
         portAcsVlan?: string | null;

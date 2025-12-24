@@ -264,14 +264,6 @@ function AssetDetailView() {
                                 </p>
                                 <ConditionBadge condition={asset.condition} />
                             </div>
-                            <div>
-                                <p className="text-muted-foreground text-sm">
-                                    Status Deployment
-                                </p>
-                                <DeploymentStatusBadge
-                                    status={asset.deploymentStatus}
-                                />
-                            </div>
                         </div>
                     </CardContent>
                 </Card>

@@ -1,12 +1,11 @@
 const createAssetFormSchema = z.object({
-    roomId: z.string().min(1, "Ruangan harus dipilih"),
+    room: z.string().min(1, "Ruangan harus dipilih"),
     registerCode: z.string().min(1, "Kode register harus diisi"),
     serialNumber: z.string().min(1, "Serial number harus diisi"),
     hostname: z.string().min(1, "Hostname harus diisi"),
     brand: z.string().min(1, "Brand harus diisi"),
     model: z.string().min(1, "Model harus diisi"),
     condition: z.enum(["baik", "rusak", "rusak berat"]),
-    deploymentStatus: z.enum(["in stock", "deployed", "maintenance"]),
     ipVlan: z.string().nullish(),
     vlan: z.string().nullish(),
     portAcsVlan: z.string().nullish(),

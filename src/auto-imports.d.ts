@@ -68,6 +68,8 @@ declare global {
   const FieldDescription: typeof import('./components/ui/field').FieldDescription
   const FieldError: typeof import('./components/ui/field').FieldError
   const FieldGroup: typeof import('./components/ui/field').FieldGroup
+  const FieldInput: typeof import('./components/field-input').FieldInput
+  const FieldInputSelect: typeof import('./components/field-input').FieldInputSelect
   const FieldLabel: typeof import('./components/ui/field').FieldLabel
   const FieldLegend: typeof import('./components/ui/field').FieldLegend
   const FieldSeparator: typeof import('./components/ui/field').FieldSeparator
@@ -95,6 +97,7 @@ declare global {
   const RoomCreateView: typeof import('./views/room-create-view').RoomCreateView
   const RoomEditForm: typeof import('./components/room-edit-form').RoomEditForm
   const RoomEditView: typeof import('./views/room-edit-view').RoomEditView
+  const RoomSelectField: typeof import('./components/room-select-field').RoomSelectField
   const Select: typeof import('./components/ui/select').Select
   const SelectContent: typeof import('./components/ui/select').SelectContent
   const SelectGroup: typeof import('./components/ui/select').SelectGroup

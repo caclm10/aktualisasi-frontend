@@ -25,7 +25,6 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
                             <TableHead>Serial Number</TableHead>
                             <TableHead>Lokasi</TableHead>
                             <TableHead>Kondisi</TableHead>
-                            <TableHead>Status</TableHead>
                             <TableHead className="w-20 pr-0 text-center">
                                 Aksi
                             </TableHead>
@@ -90,12 +89,6 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
                                     <TableCell>
                                         <ConditionBadge
                                             condition={asset.condition}
-                                        />
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <DeploymentStatusBadge
-                                            status={asset.deploymentStatus}
                                         />
                                     </TableCell>
 
