@@ -15,44 +15,43 @@ function RoomSelectField({
 }: RoomSelectFieldProps) {
     const { offices } = useOffice();
 
-    const roomFieldId = useId();
+    const inputId = useId();
 
     const options = useMemo(() => {
-        const base = [{ value: "", label: "Pilih Ruangan" }];
+        if (!offices) return [];
 
-        if (!offices) return base;
+        const rooms = offices.flatMap((office) => {
+            const _rooms = office.rooms;
 
-        return offices.flatMap((office) => {
-            if (!office.rooms) return base;
+            if (!_rooms) return [];
 
-            const rooms = office.rooms.map((room) => ({
+            return _rooms.map((room) => ({
                 value: room.id,
                 label: `${office.name} - ${room.name}`,
             }));
-
-            return [...base, ...rooms];
         });
+
+        return rooms;
     }, [offices]);
 
     return (
         <Field data-invalid={isInvalid}>
-            <FieldLabel htmlFor={roomFieldId}>Lokasi (Ruangan)</FieldLabel>
+            <FieldLabel htmlFor={inputId}>Lokasi (Ruangan)</FieldLabel>
 
-            <Select
-                name={name}
-                value={value}
-                items={options}
-                onValueChange={onChange}
-            >
-                <SelectTrigger id={roomFieldId}>
-                    <SelectValue />
+            <Select name={name} value={value} onValueChange={onChange}>
+                <SelectTrigger id={inputId}>
+                    <SelectValue placeholder="Pilih Ruangan" />
                 </SelectTrigger>
+
                 <SelectContent>
-                    {options.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                        </SelectItem>
-                    ))}
+                    <SelectGroup>
+                        <SelectLabel>Ruangan</SelectLabel>
+                        {options.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                                {option.label}
+                            </SelectItem>
+                        ))}
+                    </SelectGroup>
                 </SelectContent>
             </Select>
 

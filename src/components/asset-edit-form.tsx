@@ -7,7 +7,6 @@ interface AssetEditFormProps {
 
 function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
     const { updateAsset } = useAssetDetail(assetId);
-    const { offices } = useOffice();
 
     const navigate = useNavigate();
 
@@ -18,14 +17,13 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
     const form = useForm<CreateAssetFormInput>({
         resolver: zodResolver(createAssetFormSchema),
         defaultValues: {
-            roomId: initialData.roomId,
+            room: initialData.roomId,
             registerCode: initialData.registerCode,
             serialNumber: initialData.serialNumber,
             hostname: initialData.hostname,
             brand: initialData.brand,
             model: initialData.model,
             condition: initialData.condition,
-            deploymentStatus: initialData.deploymentStatus,
             complianceStatus: initialData.complianceStatus,
             ipVlan: initialData.ipVlan ?? "",
             vlan: initialData.vlan ?? "",
@@ -33,7 +31,9 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
             portTrunk: initialData.portTrunk ?? "",
             portCapacity: initialData.portCapacity ?? "",
             osVersion: initialData.osVersion ?? "",
-            eosDate: initialData.eosDate ?? "",
+            eosDate: initialData.eosDate
+                ? initialData.eosDate.split("T")[0]
+                : "",
             purchaseYear: initialData.purchaseYear?.toString() ?? "",
             price: initialData.price?.toString() ?? "",
         },
@@ -41,14 +41,13 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
 
     useEffect(() => {
         form.reset({
-            roomId: initialData.roomId,
+            room: initialData.roomId,
             registerCode: initialData.registerCode,
             serialNumber: initialData.serialNumber,
             hostname: initialData.hostname,
             brand: initialData.brand,
             model: initialData.model,
             condition: initialData.condition,
-            deploymentStatus: initialData.deploymentStatus,
             complianceStatus: initialData.complianceStatus,
             ipVlan: initialData.ipVlan ?? "",
             vlan: initialData.vlan ?? "",
@@ -56,7 +55,9 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
             portTrunk: initialData.portTrunk ?? "",
             portCapacity: initialData.portCapacity ?? "",
             osVersion: initialData.osVersion ?? "",
-            eosDate: initialData.eosDate ?? "",
+            eosDate: initialData.eosDate
+                ? initialData.eosDate.split("T")[0]
+                : "",
             purchaseYear: initialData.purchaseYear?.toString() ?? "",
             price: initialData.price?.toString() ?? "",
         });
@@ -79,36 +80,14 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
 
             navigate(`/assets/${assetId}`);
         } catch (error) {
-            setIsLoading(false);
-
             setFormErrors(error, form.setError);
+        } finally {
+            setIsLoading(false);
         }
     }
 
-    // Flatten offices and rooms for the select
-    const roomOptions = useMemo(() => {
-        if (!offices) return [];
-
-        return offices.flatMap((office) =>
-            (office.rooms ?? []).map((room) => ({
-                value: room.id,
-                label: `${room.name} - ${office.name}`,
-                office: office.name,
-                room: room.name,
-            })),
-        );
-    }, [offices]);
-
     return (
         <Card>
-            <CardHeader>
-                <CardTitle>Edit Aset</CardTitle>
-
-                <CardDescription>
-                    Perbarui informasi aset jaringan
-                </CardDescription>
-            </CardHeader>
-
             <CardContent>
                 <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
                     <FieldGroup>
@@ -121,23 +100,12 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="hostname"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>Hostname</FieldLabel>
-                                            <Input
-                                                {...field}
-                                                placeholder="SW-CORE-01"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="Hostname"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="SW-CORE-01"
+                                        />
                                     )}
                                 />
 
@@ -145,25 +113,12 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="serialNumber"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>
-                                                Serial Number
-                                            </FieldLabel>
-                                            <Input
-                                                {...field}
-                                                placeholder="FOC1234ABCD"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="Serial Number"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="FOC1234ABCD"
+                                        />
                                     )}
                                 />
 
@@ -171,62 +126,26 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="registerCode"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>
-                                                Kode Register
-                                            </FieldLabel>
-                                            <Input
-                                                {...field}
-                                                placeholder="REG-2024-001"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="Kode Register"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="REG-2024-001"
+                                        />
                                     )}
                                 />
 
                                 <Controller
                                     control={form.control}
-                                    name="roomId"
+                                    name="room"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>
-                                                Lokasi (Ruangan)
-                                            </FieldLabel>
-                                            <Select
-                                                value={field.value}
-                                                onValueChange={field.onChange}
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue data-placeholder="Pilih ruangan" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    {roomOptions.map((room) => (
-                                                        <SelectItem
-                                                            key={room.value}
-                                                            value={room.value}
-                                                        >
-                                                            {room.label}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <RoomSelectField
+                                            name={field.name}
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            isInvalid={fieldState.invalid}
+                                            error={fieldState.error}
+                                        />
                                     )}
                                 />
                             </div>
@@ -243,23 +162,12 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="brand"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>Brand</FieldLabel>
-                                            <Input
-                                                {...field}
-                                                placeholder="Cisco"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="Brand"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="Cisco"
+                                        />
                                     )}
                                 />
 
@@ -267,23 +175,12 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="model"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>Model</FieldLabel>
-                                            <Input
-                                                {...field}
-                                                placeholder="Catalyst 2960X"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="Model"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="Catalyst 2960X"
+                                        />
                                     )}
                                 />
 
@@ -291,73 +188,21 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="condition"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
+                                        <FieldInputSelect
+                                            field={field}
+                                            fieldState={fieldState}
+                                            label="Kondisi"
                                         >
-                                            <FieldLabel>Kondisi</FieldLabel>
-                                            <Select
-                                                value={field.value}
-                                                onValueChange={field.onChange}
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue data-placeholder="Pilih kondisi" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="baik">
-                                                        Baik
-                                                    </SelectItem>
-                                                    <SelectItem value="rusak">
-                                                        Rusak
-                                                    </SelectItem>
-                                                    <SelectItem value="rusak berat">
-                                                        Rusak Berat
-                                                    </SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
-                                    )}
-                                />
-
-                                <Controller
-                                    control={form.control}
-                                    name="deploymentStatus"
-                                    render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>
-                                                Status Deployment
-                                            </FieldLabel>
-                                            <Select
-                                                value={field.value}
-                                                onValueChange={field.onChange}
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue data-placeholder="Pilih status" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="in stock">
-                                                        In Stock
-                                                    </SelectItem>
-                                                    <SelectItem value="deployed">
-                                                        Deployed
-                                                    </SelectItem>
-                                                    <SelectItem value="maintenance">
-                                                        Maintenance
-                                                    </SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                            <SelectItem value="baik">
+                                                Baik
+                                            </SelectItem>
+                                            <SelectItem value="rusak">
+                                                Rusak
+                                            </SelectItem>
+                                            <SelectItem value="rusak berat">
+                                                Rusak Berat
+                                            </SelectItem>
+                                        </FieldInputSelect>
                                     )}
                                 />
                             </div>
@@ -374,24 +219,12 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="ipVlan"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>IP VLAN</FieldLabel>
-                                            <Input
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                placeholder="192.168.1.1"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="IP VLAN"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="192.168.1.1"
+                                        />
                                     )}
                                 />
 
@@ -399,24 +232,12 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="vlan"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>VLAN</FieldLabel>
-                                            <Input
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                placeholder="100"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="VLAN"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="100"
+                                        />
                                     )}
                                 />
 
@@ -424,26 +245,12 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="portAcsVlan"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>
-                                                Port ACS VLAN
-                                            </FieldLabel>
-                                            <Input
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                placeholder="Gi0/1"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="Port ACS VLAN"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="Gi0/1"
+                                        />
                                     )}
                                 />
 
@@ -451,24 +258,12 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="portTrunk"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>Port Trunk</FieldLabel>
-                                            <Input
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                placeholder="Gi0/24"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="Port Trunk"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="Gi0/24"
+                                        />
                                     )}
                                 />
 
@@ -476,26 +271,12 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="portCapacity"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>
-                                                Kapasitas Port
-                                            </FieldLabel>
-                                            <Input
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                placeholder="24"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="Port Capacity"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="24"
+                                        />
                                     )}
                                 />
 
@@ -503,40 +284,26 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="complianceStatus"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
+                                        <FieldInputSelect
+                                            label="Status Compliance"
+                                            field={field}
+                                            fieldState={fieldState}
                                         >
-                                            <FieldLabel>
-                                                Status Compliance
-                                            </FieldLabel>
-                                            <Select
-                                                value={field.value}
-                                                onValueChange={field.onChange}
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue data-placeholder="Pilih status" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="sesuai">
-                                                        Sesuai
-                                                    </SelectItem>
-                                                    <SelectItem value="tidak sesuai">
-                                                        Tidak Sesuai
-                                                    </SelectItem>
-                                                    <SelectItem value="pengecualian">
-                                                        Pengecualian
-                                                    </SelectItem>
-                                                    <SelectItem value="belum dicek">
-                                                        Belum Dicek
-                                                    </SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                            <SelectGroup>
+                                                <SelectItem value="sesuai">
+                                                    Sesuai
+                                                </SelectItem>
+                                                <SelectItem value="tidak sesuai">
+                                                    Tidak Sesuai
+                                                </SelectItem>
+                                                <SelectItem value="pengecualian">
+                                                    Pengecualian
+                                                </SelectItem>
+                                                <SelectItem value="belum dicek">
+                                                    Belum Dicek
+                                                </SelectItem>
+                                            </SelectGroup>
+                                        </FieldInputSelect>
                                     )}
                                 />
                             </div>
@@ -553,24 +320,12 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="osVersion"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>Versi OS</FieldLabel>
-                                            <Input
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                placeholder="15.2(7)E3"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="Versi OS"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="15.2(7)E3"
+                                        />
                                     )}
                                 />
 
@@ -578,24 +333,13 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="eosDate"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>Tanggal EOS</FieldLabel>
-                                            <Input
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                type="date"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="Tanggal EOS"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="Gi0/24"
+                                            type="date"
+                                        />
                                     )}
                                 />
 
@@ -603,27 +347,13 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="purchaseYear"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>
-                                                Tahun Pembelian
-                                            </FieldLabel>
-                                            <Input
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                type="number"
-                                                placeholder="2024"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="Tahun Pembelian"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="2024"
+                                            type="number"
+                                        />
                                     )}
                                 />
 
@@ -631,25 +361,13 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
                                     control={form.control}
                                     name="price"
                                     render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel>Harga (Rp)</FieldLabel>
-                                            <Input
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                type="number"
-                                                placeholder="10000000"
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
+                                        <FieldInput
+                                            label="Harga (Rp)"
+                                            field={field}
+                                            fieldState={fieldState}
+                                            placeholder="10000000"
+                                            type="number"
+                                        />
                                     )}
                                 />
                             </div>

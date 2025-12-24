@@ -54,6 +54,7 @@ function FieldInputSelect({
     ...props
 }: FieldInputSelectProps) {
     const inputId = useId();
+
     return (
         <Field data-invalid={fieldState.invalid}>
             <FieldLabel htmlFor={inputId}>{label}</FieldLabel>
