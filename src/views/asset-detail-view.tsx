@@ -133,7 +133,7 @@ function AssetDetailView() {
                             <div className="bg-muted flex h-48 w-48 items-center justify-center overflow-hidden rounded-lg">
                                 {asset.imageUrl ? (
                                     <img
-                                        src={asset.imageUrl}
+                                        src={`${import.meta.env.VITE_BACKEND_URL}${asset.imageUrl}`}
                                         alt={asset.hostname}
                                         className="h-full w-full object-cover"
                                     />

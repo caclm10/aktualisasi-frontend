@@ -94,7 +94,11 @@ export function useAssetDetail(id: string) {
             toast.success("Gambar aset berhasil diperbarui");
         } catch (error) {
             if (isHttpError(error)) {
-                toast.error(error.response?.data.message);
+                if (error.response?.status === 422) {
+                    toast.error(error.response?.data.data.image[0]);
+                } else {
+                    toast.error(error.response?.data.message);
+                }
             }
 
             throw error;
