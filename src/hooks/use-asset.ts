@@ -8,7 +8,7 @@ export function useAsset() {
         http.get("/api/assets").then((res) => res.data.data as Asset[]),
     );
 
-    async function createAsset(data: CreateAssetInput) {
+    async function createAsset(data: AssetInput) {
         try {
             const response = await http.post<{ data: { id: string } }>(
                 "/api/assets",
@@ -48,7 +48,7 @@ export function useAssetDetail(id: string) {
         http.get(`/api/assets/${id}`).then((res) => res.data.data as Asset),
     );
 
-    async function updateAsset(data: CreateAssetInput) {
+    async function updateAsset(data: AssetInput) {
         try {
             await http.put(`/api/assets/${id}`, data);
 
@@ -121,6 +121,49 @@ export function useAssetDetail(id: string) {
         }
     }
 
+    async function maintenanceAsset(data: {
+        osVersion?: string;
+        condition?: AssetCondition;
+        complianceStatus?: AssetComplianceStatus;
+        remarks?: string;
+    }) {
+        try {
+            await http.post(`/api/assets/${id}/maintenance`, data);
+
+            await mutate();
+
+            toast.success("Maintenance aset berhasil dilakukan");
+        } catch (error) {
+            if (isHttpError(error)) {
+                if (error.response?.status === 422) {
+                    throw new ValidationError(error.response?.data.errors);
+                }
+                toast.error(error.response?.data.message);
+            }
+
+            throw error;
+        }
+    }
+
+    async function mutasiAsset(data: { roomId: string; remarks?: string }) {
+        try {
+            await http.post(`/api/assets/${id}/mutasi`, data);
+
+            await mutate();
+
+            toast.success("Aset berhasil dipindahkan");
+        } catch (error) {
+            if (isHttpError(error)) {
+                if (error.response?.status === 422) {
+                    throw new ValidationError(error.response?.data.errors);
+                }
+                toast.error(error.response?.data.message);
+            }
+
+            throw error;
+        }
+    }
+
     return {
         asset,
         error,
@@ -129,6 +172,8 @@ export function useAssetDetail(id: string) {
         deleteAsset,
         updateImage,
         deleteImage,
+        maintenanceAsset,
+        mutasiAsset,
         mutate,
     };
 }

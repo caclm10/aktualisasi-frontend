@@ -82,6 +82,8 @@ declare global {
   const LoginForm: typeof import('./components/login-form').LoginForm
   const LoginView: typeof import('./views/login-view').LoginView
   const MainLayout: typeof import('./layouts/main-layout').MainLayout
+  const MaintenanceDialog: typeof import('./components/maintenance-dialog').MaintenanceDialog
+  const MutasiDialog: typeof import('./components/mutasi-dialog').MutasiDialog
   const NotFoundView: typeof import('./views/not-found-view').NotFoundView
   const OfficeCreateForm: typeof import('./components/office-create-form').OfficeCreateForm
   const OfficeCreateView: typeof import('./views/office-create-view').OfficeCreateView
@@ -178,6 +180,7 @@ declare global {
   const use: typeof import('react').use
   const useActionState: typeof import('react').useActionState
   const useAsset: typeof import('./hooks/use-asset').useAsset
+  const useAssetActivities: typeof import('./hooks/use-activity').useAssetActivities
   const useAssetDetail: typeof import('./hooks/use-asset').useAssetDetail
   const useAuth: typeof import('./hooks/use-auth').useAuth
   const useCallback: typeof import('react').useCallback

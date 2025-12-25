@@ -2,6 +2,7 @@ import {
     CalendarIcon,
     CpuIcon,
     EditIcon,
+    HistoryIcon,
     ImageIcon,
     NetworkIcon,
     ServerIcon,
@@ -12,8 +13,18 @@ import {
 function AssetDetailView() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const { asset, isLoading, deleteAsset, updateImage, deleteImage } =
-        useAssetDetail(id!);
+    const {
+        asset,
+        isLoading,
+        deleteAsset,
+        updateImage,
+        deleteImage,
+        maintenanceAsset,
+        mutasiAsset,
+    } = useAssetDetail(id!);
+    const { activities, isLoading: isLoadingActivities } = useAssetActivities(
+        id!,
+    );
 
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [isUploadingImage, setIsUploadingImage] = useState(false);
@@ -71,7 +82,12 @@ function AssetDetailView() {
                 title={asset.hostname}
                 description="Detail informasi aset jaringan"
                 action={
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <MaintenanceDialog
+                            asset={asset}
+                            onMaintenance={maintenanceAsset}
+                        />
+                        <MutasiDialog asset={asset} onMutasi={mutasiAsset} />
                         <Button
                             render={<Link to={`/assets/${id}/edit`} />}
                             variant="outline"
@@ -352,6 +368,80 @@ function AssetDetailView() {
                         </div>
                     </CardContent>
                 </Card>
+
+                {/* Activity History Card */}
+                <Card>
+                    <CardHeader>
+                        <div className="flex items-center gap-2">
+                            <HistoryIcon className="text-muted-foreground size-5" />
+                            <CardTitle>Riwayat Aktivitas</CardTitle>
+                        </div>
+                    </CardHeader>
+
+                    <CardContent>
+                        {isLoadingActivities ? (
+                            <div className="flex items-center justify-center py-8">
+                                <div className="text-muted-foreground">
+                                    Memuat aktivitas...
+                                </div>
+                            </div>
+                        ) : !activities || activities.length === 0 ? (
+                            <div className="flex items-center justify-center py-8">
+                                <div className="text-muted-foreground">
+                                    Belum ada aktivitas
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Tanggal</TableHead>
+                                            <TableHead>Kategori</TableHead>
+                                            <TableHead>Tipe</TableHead>
+                                            <TableHead>Catatan</TableHead>
+                                            <TableHead>User</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {activities.map((activity) => (
+                                            <TableRow key={activity.id}>
+                                                <TableCell>
+                                                    {new Date(
+                                                        activity.createdAt,
+                                                    ).toLocaleDateString(
+                                                        "id-ID",
+                                                        {
+                                                            day: "numeric",
+                                                            month: "short",
+                                                            year: "numeric",
+                                                        },
+                                                    )}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <CategoryBadge
+                                                        category={
+                                                            activity.category
+                                                        }
+                                                    />
+                                                </TableCell>
+                                                <TableCell>
+                                                    {activity.type}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {activity.remarks ?? "-"}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {activity.user?.name ?? "-"}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
             </div>
         </>
     );
@@ -402,6 +492,31 @@ function ComplianceStatusBadge({ status }: { status: AssetComplianceStatus }) {
             )}
         >
             {labels[status]}
+        </span>
+    );
+}
+
+function CategoryBadge({ category }: { category: ActivityCategory }) {
+    const variants: Record<ActivityCategory, string> = {
+        perjalanan:
+            "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+        pemeliharaan:
+            "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
+    };
+
+    const labels: Record<ActivityCategory, string> = {
+        perjalanan: "Perjalanan",
+        pemeliharaan: "Pemeliharaan",
+    };
+
+    return (
+        <span
+            className={cn(
+                "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
+                variants[category],
+            )}
+        >
+            {labels[category]}
         </span>
     );
 }
