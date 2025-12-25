@@ -37,7 +37,7 @@ function AssetCreateForm() {
             setIsLoading(true);
 
             // Convert string values to numbers for the API
-            const payload: CreateAssetInput = {
+            const payload: AssetInput = {
                 ...data,
                 purchaseYear: data.purchaseYear
                     ? parseInt(data.purchaseYear, 10)

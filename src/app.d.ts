@@ -69,7 +69,7 @@ declare global {
         room?: Room;
     }
 
-    interface CreateAssetInput {
+    interface AssetInput {
         room: string;
         registerCode: string;
         serialNumber: string;
