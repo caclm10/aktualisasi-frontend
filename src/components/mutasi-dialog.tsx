@@ -30,6 +30,8 @@ function MutasiDialog({ asset, onMutasi }: MutasiDialogProps) {
         undefined,
     );
 
+    const formId = useId();
+
     function resetForm() {
         setSelectedRoomId("");
         setRemarks("");
@@ -89,6 +91,7 @@ function MutasiDialog({ asset, onMutasi }: MutasiDialogProps) {
                 </SheetHeader>
 
                 <form
+                    id={formId}
                     onSubmit={handleSubmit}
                     className="flex flex-col gap-6 p-4"
                 >
@@ -126,27 +129,27 @@ function MutasiDialog({ asset, onMutasi }: MutasiDialogProps) {
                             className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[80px] w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                         />
                     </div>
-
-                    <SheetFooter>
-                        <SheetClose
-                            render={
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    disabled={isSubmitting}
-                                />
-                            }
-                        >
-                            Batal
-                        </SheetClose>
-                        <Button
-                            type="submit"
-                            disabled={isSubmitting || !selectedRoomId}
-                        >
-                            {isSubmitting ? "Memindahkan..." : "Pindahkan"}
-                        </Button>
-                    </SheetFooter>
                 </form>
+                <SheetFooter>
+                    <SheetClose
+                        render={
+                            <Button
+                                type="button"
+                                variant="outline"
+                                disabled={isSubmitting}
+                            />
+                        }
+                    >
+                        Batal
+                    </SheetClose>
+                    <Button
+                        form={formId}
+                        type="submit"
+                        disabled={isSubmitting || !selectedRoomId}
+                    >
+                        {isSubmitting ? "Memindahkan..." : "Pindahkan"}
+                    </Button>
+                </SheetFooter>
             </SheetContent>
         </Sheet>
     );
