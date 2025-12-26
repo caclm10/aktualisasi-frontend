@@ -317,11 +317,9 @@ function AssetDetailView() {
                             />
                             <div>
                                 <p className="text-muted-foreground text-sm">
-                                    Status Compliance
+                                    Baseline
                                 </p>
-                                <ComplianceStatusBadge
-                                    status={asset.complianceStatus}
-                                />
+                                <BaselineBadge status={asset.baseline} />
                             </div>
                         </div>
                     </CardContent>
@@ -466,8 +464,8 @@ function InfoItem({
     );
 }
 
-function ComplianceStatusBadge({ status }: { status: AssetComplianceStatus }) {
-    const variants: Record<AssetComplianceStatus, string> = {
+function BaselineBadge({ status }: { status: AssetBaseline }) {
+    const variants: Record<AssetBaseline, string> = {
         sesuai: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
         "tidak sesuai":
             "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
@@ -477,7 +475,7 @@ function ComplianceStatusBadge({ status }: { status: AssetComplianceStatus }) {
             "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400",
     };
 
-    const labels: Record<AssetComplianceStatus, string> = {
+    const labels: Record<AssetBaseline, string> = {
         sesuai: "Sesuai",
         "tidak sesuai": "Tidak Sesuai",
         pengecualian: "Pengecualian",
@@ -521,4 +519,4 @@ function CategoryBadge({ category }: { category: ActivityCategory }) {
     );
 }
 
-export { AssetDetailView, ComplianceStatusBadge };
+export { AssetDetailView, BaselineBadge };

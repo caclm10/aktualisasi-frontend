@@ -35,6 +35,7 @@ declare global {
   const AvatarGroupCount: typeof import('./components/ui/avatar').AvatarGroupCount
   const AvatarImage: typeof import('./components/ui/avatar').AvatarImage
   const BackButton: typeof import('./components/back-button').BackButton
+  const BaselineBadge: typeof import('./views/asset-detail-view').BaselineBadge
   const Button: typeof import('./components/ui/button').Button
   const Card: typeof import('./components/ui/card').Card
   const CardAction: typeof import('./components/ui/card').CardAction

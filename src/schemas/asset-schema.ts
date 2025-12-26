@@ -11,12 +11,7 @@ const createAssetFormSchema = z.object({
     portAcsVlan: z.string().nullish(),
     portTrunk: z.string().nullish(),
     portCapacity: z.string().nullish(),
-    complianceStatus: z.enum([
-        "sesuai",
-        "tidak sesuai",
-        "pengecualian",
-        "belum dicek",
-    ]),
+    baseline: z.enum(["sesuai", "tidak sesuai", "pengecualian", "belum dicek"]),
     osVersion: z.string().nullish(),
     eosDate: z.string().nullish(),
     purchaseYear: z.string().nullish(),

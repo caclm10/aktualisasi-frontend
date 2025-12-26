@@ -4,7 +4,6 @@ import { Controller } from "react-hook-form";
 
 import { FieldInput, FieldInputSelect } from "@/components/field-input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { SelectGroup, SelectItem, SelectLabel } from "@/components/ui/select";
 import {
@@ -18,19 +17,15 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet";
 
+// Tipe field yang bisa di-update
+type MaintenanceFieldType = "osVersion" | "condition" | "baseline" | "";
+
 // Schema untuk maintenance form
 const maintenanceFormSchema = z.object({
-    updateOsVersion: z.boolean(),
-    updateCondition: z.boolean(),
-    updateComplianceStatus: z.boolean(),
+    fieldToUpdate: z.enum(["osVersion", "condition", "baseline", ""]),
     osVersion: z.string(),
     condition: z.enum(["baik", "rusak", "rusak berat"]),
-    complianceStatus: z.enum([
-        "sesuai",
-        "tidak sesuai",
-        "pengecualian",
-        "belum dicek",
-    ]),
+    baseline: z.enum(["sesuai", "tidak sesuai", "pengecualian", "belum dicek"]),
     remarks: z.string(),
 });
 
@@ -41,10 +36,16 @@ interface MaintenanceDialogProps {
     onMaintenance: (data: {
         osVersion?: string;
         condition?: AssetCondition;
-        complianceStatus?: AssetComplianceStatus;
+        baseline?: AssetBaseline;
         remarks?: string;
     }) => Promise<void>;
 }
+
+const fieldOptions: { value: MaintenanceFieldType; label: string }[] = [
+    { value: "osVersion", label: "Versi OS" },
+    { value: "condition", label: "Kondisi" },
+    { value: "baseline", label: "Baseline" },
+];
 
 function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
     const [isOpen, setIsOpen] = useState(false);
@@ -56,39 +57,29 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
     const form = useForm<MaintenanceFormInput>({
         resolver: zodResolver(maintenanceFormSchema),
         defaultValues: {
-            updateOsVersion: false,
-            updateCondition: false,
-            updateComplianceStatus: false,
+            fieldToUpdate: "",
             osVersion: asset.osVersion ?? "",
             condition: asset.condition,
-            complianceStatus: asset.complianceStatus,
+            baseline: asset.baseline,
             remarks: "",
         },
     });
 
-    const watchUpdateOsVersion = form.watch("updateOsVersion");
-    const watchUpdateCondition = form.watch("updateCondition");
-    const watchUpdateComplianceStatus = form.watch("updateComplianceStatus");
-
-    const hasNoSelection =
-        !watchUpdateOsVersion &&
-        !watchUpdateCondition &&
-        !watchUpdateComplianceStatus;
+    const watchFieldToUpdate = form.watch("fieldToUpdate");
+    const hasNoSelection = !watchFieldToUpdate;
 
     function resetForm() {
         form.reset({
-            updateOsVersion: false,
-            updateCondition: false,
-            updateComplianceStatus: false,
+            fieldToUpdate: "",
             osVersion: asset.osVersion ?? "",
             condition: asset.condition,
-            complianceStatus: asset.complianceStatus,
+            baseline: asset.baseline,
             remarks: "",
         });
     }
 
     async function onSubmit(data: MaintenanceFormInput) {
-        if (hasNoSelection) {
+        if (!data.fieldToUpdate) {
             return;
         }
 
@@ -98,19 +89,19 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
             const payload: {
                 osVersion?: string;
                 condition?: AssetCondition;
-                complianceStatus?: AssetComplianceStatus;
+                baseline?: AssetBaseline;
                 remarks?: string;
             } = {};
 
-            if (data.updateOsVersion && data.osVersion) {
+            // Hanya kirim field yang dipilih
+            if (data.fieldToUpdate === "osVersion") {
                 payload.osVersion = data.osVersion;
-            }
-            if (data.updateCondition && data.condition) {
+            } else if (data.fieldToUpdate === "condition") {
                 payload.condition = data.condition;
+            } else if (data.fieldToUpdate === "baseline") {
+                payload.baseline = data.baseline;
             }
-            if (data.updateComplianceStatus && data.complianceStatus) {
-                payload.complianceStatus = data.complianceStatus;
-            }
+
             if (data.remarks?.trim()) {
                 payload.remarks = data.remarks.trim();
             }
@@ -156,152 +147,102 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="flex flex-col gap-6 p-4"
                 >
-                    {/* Field Selection */}
-                    <Field data-invalid={hasNoSelection}>
-                        <FieldLabel>Pilih Data yang Akan Diubah</FieldLabel>
-
-                        <div className="flex flex-col gap-3">
-                            {/* OS Version Checkbox */}
-                            <Controller
-                                control={form.control}
-                                name="updateOsVersion"
-                                render={({ field }) => (
-                                    <Field orientation="horizontal">
-                                        <Checkbox
-                                            id="field-osVersion"
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
-                                        />
-                                        <FieldLabel htmlFor="field-osVersion">
-                                            Versi OS
-                                        </FieldLabel>
-                                    </Field>
-                                )}
-                            />
-
-                            {/* Condition Checkbox */}
-                            <Controller
-                                control={form.control}
-                                name="updateCondition"
-                                render={({ field }) => (
-                                    <Field orientation="horizontal">
-                                        <Checkbox
-                                            id="field-condition"
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
-                                        />
-                                        <FieldLabel htmlFor="field-condition">
-                                            Kondisi
-                                        </FieldLabel>
-                                    </Field>
-                                )}
-                            />
-
-                            {/* Compliance Status Checkbox */}
-                            <Controller
-                                control={form.control}
-                                name="updateComplianceStatus"
-                                render={({ field }) => (
-                                    <Field orientation="horizontal">
-                                        <Checkbox
-                                            id="field-complianceStatus"
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
-                                        />
-                                        <FieldLabel htmlFor="field-complianceStatus">
-                                            Status Compliance
-                                        </FieldLabel>
-                                    </Field>
-                                )}
-                            />
-                        </div>
-
-                        {hasNoSelection && (
-                            <FieldError>
-                                Pilih minimal satu data untuk diubah
-                            </FieldError>
+                    {/* Field Selection - Radio Button Style */}
+                    <Controller
+                        control={form.control}
+                        name="fieldToUpdate"
+                        render={({ field, fieldState }) => (
+                            <FieldInputSelect
+                                label="Pilih Data yang Akan Diubah"
+                                field={field}
+                                fieldState={fieldState}
+                            >
+                                <SelectGroup>
+                                    <SelectLabel>Jenis Data</SelectLabel>
+                                    {fieldOptions.map((option) => (
+                                        <SelectItem
+                                            key={option.value}
+                                            value={option.value}
+                                        >
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </FieldInputSelect>
                         )}
-                    </Field>
+                    />
 
-                    {/* Conditional Inputs */}
-                    {!hasNoSelection && (
-                        <div className="flex flex-col gap-4">
-                            {watchUpdateOsVersion && (
-                                <Controller
-                                    control={form.control}
-                                    name="osVersion"
-                                    render={({ field, fieldState }) => (
-                                        <FieldInput
-                                            label="Versi OS"
-                                            field={field}
-                                            fieldState={fieldState}
-                                            placeholder="Contoh: 15.2.1"
-                                        />
-                                    )}
+                    {/* Conditional Input based on selected field */}
+                    {watchFieldToUpdate === "osVersion" && (
+                        <Controller
+                            control={form.control}
+                            name="osVersion"
+                            render={({ field, fieldState }) => (
+                                <FieldInput
+                                    label="Versi OS Baru"
+                                    field={field}
+                                    fieldState={fieldState}
+                                    placeholder="Contoh: 15.2.1"
                                 />
                             )}
+                        />
+                    )}
 
-                            {watchUpdateCondition && (
-                                <Controller
-                                    control={form.control}
-                                    name="condition"
-                                    render={({ field, fieldState }) => (
-                                        <FieldInputSelect
-                                            label="Kondisi"
-                                            field={field}
-                                            fieldState={fieldState}
-                                        >
-                                            <SelectGroup>
-                                                <SelectLabel>
-                                                    Kondisi
-                                                </SelectLabel>
-                                                <SelectItem value="baik">
-                                                    Baik
-                                                </SelectItem>
-                                                <SelectItem value="rusak">
-                                                    Rusak
-                                                </SelectItem>
-                                                <SelectItem value="rusak berat">
-                                                    Rusak Berat
-                                                </SelectItem>
-                                            </SelectGroup>
-                                        </FieldInputSelect>
-                                    )}
-                                />
+                    {watchFieldToUpdate === "condition" && (
+                        <Controller
+                            control={form.control}
+                            name="condition"
+                            render={({ field, fieldState }) => (
+                                <FieldInputSelect
+                                    label="Kondisi Baru"
+                                    field={field}
+                                    fieldState={fieldState}
+                                >
+                                    <SelectGroup>
+                                        <SelectLabel>Kondisi</SelectLabel>
+                                        <SelectItem value="baik">
+                                            Baik
+                                        </SelectItem>
+                                        <SelectItem value="rusak">
+                                            Rusak
+                                        </SelectItem>
+                                        <SelectItem value="rusak berat">
+                                            Rusak Berat
+                                        </SelectItem>
+                                    </SelectGroup>
+                                </FieldInputSelect>
                             )}
+                        />
+                    )}
 
-                            {watchUpdateComplianceStatus && (
-                                <Controller
-                                    control={form.control}
-                                    name="complianceStatus"
-                                    render={({ field, fieldState }) => (
-                                        <FieldInputSelect
-                                            label="Status Compliance"
-                                            field={field}
-                                            fieldState={fieldState}
-                                        >
-                                            <SelectGroup>
-                                                <SelectLabel>
-                                                    Status Compliance
-                                                </SelectLabel>
-                                                <SelectItem value="sesuai">
-                                                    Sesuai
-                                                </SelectItem>
-                                                <SelectItem value="tidak sesuai">
-                                                    Tidak Sesuai
-                                                </SelectItem>
-                                                <SelectItem value="pengecualian">
-                                                    Pengecualian
-                                                </SelectItem>
-                                                <SelectItem value="belum dicek">
-                                                    Belum Dicek
-                                                </SelectItem>
-                                            </SelectGroup>
-                                        </FieldInputSelect>
-                                    )}
-                                />
+                    {watchFieldToUpdate === "baseline" && (
+                        <Controller
+                            control={form.control}
+                            name="baseline"
+                            render={({ field, fieldState }) => (
+                                <FieldInputSelect
+                                    label="Baseline Baru"
+                                    field={field}
+                                    fieldState={fieldState}
+                                >
+                                    <SelectGroup>
+                                        <SelectLabel>Baseline</SelectLabel>
+                                        <SelectItem value="sesuai">
+                                            Sesuai
+                                        </SelectItem>
+                                        <SelectItem value="tidak sesuai">
+                                            Tidak Sesuai
+                                        </SelectItem>
+                                        <SelectItem value="pengecualian">
+                                            Pengecualian
+                                        </SelectItem>
+                                        <SelectItem value="belum dicek">
+                                            Belum Dicek
+                                        </SelectItem>
+                                    </SelectGroup>
+                                </FieldInputSelect>
                             )}
-                        </div>
+                        />
                     )}
 
                     {/* Remarks */}

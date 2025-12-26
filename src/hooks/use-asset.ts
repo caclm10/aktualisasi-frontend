@@ -124,7 +124,7 @@ export function useAssetDetail(id: string) {
     async function maintenanceAsset(data: {
         osVersion?: string;
         condition?: AssetCondition;
-        complianceStatus?: AssetComplianceStatus;
+        baseline?: AssetBaseline;
         remarks?: string;
     }) {
         try {

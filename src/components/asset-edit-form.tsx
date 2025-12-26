@@ -24,7 +24,7 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
             brand: initialData.brand,
             model: initialData.model,
             condition: initialData.condition,
-            complianceStatus: initialData.complianceStatus,
+            baseline: initialData.baseline,
             ipVlan: initialData.ipVlan ?? "",
             vlan: initialData.vlan ?? "",
             portAcsVlan: initialData.portAcsVlan ?? "",
@@ -48,7 +48,7 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
             brand: initialData.brand,
             model: initialData.model,
             condition: initialData.condition,
-            complianceStatus: initialData.complianceStatus,
+            baseline: initialData.baseline,
             ipVlan: initialData.ipVlan ?? "",
             vlan: initialData.vlan ?? "",
             portAcsVlan: initialData.portAcsVlan ?? "",
@@ -282,10 +282,10 @@ function AssetEditForm({ assetId, initialData }: AssetEditFormProps) {
 
                                 <Controller
                                     control={form.control}
-                                    name="complianceStatus"
+                                    name="baseline"
                                     render={({ field, fieldState }) => (
                                         <FieldInputSelect
-                                            label="Status Compliance"
+                                            label="Baseline"
                                             field={field}
                                             fieldState={fieldState}
                                         >

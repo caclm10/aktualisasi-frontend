@@ -19,7 +19,7 @@ function AssetCreateForm() {
             brand: "",
             model: "",
             condition: "baik",
-            complianceStatus: "belum dicek",
+            baseline: "belum dicek",
             ipVlan: "",
             vlan: "",
             portAcsVlan: "",
@@ -251,10 +251,10 @@ function AssetCreateForm() {
 
                                 <Controller
                                     control={form.control}
-                                    name="complianceStatus"
+                                    name="baseline"
                                     render={({ field, fieldState }) => (
                                         <FieldInputSelect
-                                            label="Status Compliance"
+                                            label="Baseline"
                                             field={field}
                                             fieldState={fieldState}
                                         >

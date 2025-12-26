@@ -28,7 +28,7 @@ declare global {
 
     type AssetDeploymentStatus = "in stock" | "deployed" | "maintenance";
 
-    type AssetComplianceStatus =
+    type AssetBaseline =
         | "sesuai"
         | "tidak sesuai"
         | "pengecualian"
@@ -52,7 +52,7 @@ declare global {
         portAcsVlan: string | null;
         portTrunk: string | null;
         portCapacity: string | null;
-        complianceStatus: AssetComplianceStatus;
+        baseline: AssetBaseline;
 
         osVersion: string | null;
 
@@ -82,7 +82,7 @@ declare global {
         portAcsVlan?: string | null;
         portTrunk?: string | null;
         portCapacity?: string | null;
-        complianceStatus: AssetComplianceStatus;
+        baseline: AssetBaseline;
         osVersion?: string | null;
         eosDate?: string | null;
         purchaseYear?: number | null;
