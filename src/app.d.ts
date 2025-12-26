@@ -111,15 +111,13 @@ declare global {
         assetId: string;
         roomId: string;
 
-        // Data Utama
         category: ActivityCategory;
-        type: string; // (Contoh: 'Mutasi', 'OS Update', 'Perbaikan')
 
-        remarks: string | null; // Nullable (catatan tambahan)
-        statusSnapshot: string | null; // Nullable (Snapshot kondisi aset saat log dibuat)
+        property: string;
+        old: string;
+        new: string;
 
-        // JSON Column
-        properties: ActivityProperties | null;
+        remarks: string | null;
 
         // Timestamps
         createdAt: string;

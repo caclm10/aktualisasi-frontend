@@ -396,6 +396,9 @@ function AssetDetailView() {
                                         <TableRow head>
                                             <TableHead>Tanggal</TableHead>
                                             <TableHead>Kategori</TableHead>
+                                            <TableHead>Properti</TableHead>
+                                            <TableHead>Nilai Lama</TableHead>
+                                            <TableHead>Nilai Baru</TableHead>
                                             <TableHead>Catatan</TableHead>
                                             <TableHead>User</TableHead>
                                         </TableRow>
@@ -421,6 +424,19 @@ function AssetDetailView() {
                                                             activity.category
                                                         }
                                                     />
+                                                </TableCell>
+                                                <TableCell>
+                                                    {
+                                                        activityPropertiesLabel[
+                                                            activity.property
+                                                        ]
+                                                    }
+                                                </TableCell>
+                                                <TableCell>
+                                                    {activity.old}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {activity.new}
                                                 </TableCell>
                                                 <TableCell>
                                                     {activity.remarks ?? "-"}

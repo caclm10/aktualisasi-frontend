@@ -158,6 +158,7 @@ declare global {
   const TooltipProvider: typeof import('./components/ui/tooltip').TooltipProvider
   const TooltipTrigger: typeof import('./components/ui/tooltip').TooltipTrigger
   const ValidationError: typeof import('./lib/errors').ValidationError
+  const activityPropertiesLabel: typeof import('./schemas/activity-schema').activityPropertiesLabel
   const buttonVariants: typeof import('./components/ui/button').buttonVariants
   const cache: typeof import('react').cache
   const cacheSignal: typeof import('react').cacheSignal

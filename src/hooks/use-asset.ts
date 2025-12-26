@@ -149,7 +149,7 @@ export function useAssetDetail(id: string) {
 
     async function mutasiAsset(data: { roomId: string; remarks?: string }) {
         try {
-            await http.post(`/api/assets/${id}/mutasi`, data);
+            await http.post(`/api/assets/${id}/mutation`, data);
 
             await mutate();
             await globalMutate(`/api/assets/${id}/activities`);
