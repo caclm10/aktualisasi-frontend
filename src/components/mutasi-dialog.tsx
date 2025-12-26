@@ -99,7 +99,7 @@ function MutasiDialog({ asset, onMutasi }: MutasiDialogProps) {
                         </p>
                         <p className="font-medium">
                             {asset.room
-                                ? `${asset.room.office?.name} - ${asset.room.name}`
+                                ? `${asset.room.office?.name} - ${asset.room.name} (Lantai ${asset.room.floor})`
                                 : "-"}
                         </p>
                     </div>

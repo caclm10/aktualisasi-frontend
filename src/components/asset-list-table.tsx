@@ -74,7 +74,10 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
                                     <TableCell>
                                         {asset.room ? (
                                             <div className="flex flex-col">
-                                                <span>{asset.room.name}</span>
+                                                <span>
+                                                    {asset.room.name} (Lantai{" "}
+                                                    {asset.room.floor})
+                                                </span>
                                                 <span className="text-muted-foreground text-xs">
                                                     {asset.room.office?.name}
                                                 </span>

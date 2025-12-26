@@ -27,7 +27,7 @@ function RoomSelectField({
 
             return _rooms.map((room) => ({
                 value: room.id,
-                label: `${office.name} - ${room.name}`,
+                label: `${office.name} - ${room.name} (Lantai ${room.floor})`,
             }));
         });
 

@@ -253,7 +253,7 @@ function AssetDetailView() {
                                 label="Lokasi"
                                 value={
                                     asset.room
-                                        ? `${asset.room.name} - ${asset.room.office?.name}`
+                                        ? `${asset.room.name} - ${asset.room.office?.name} (Lantai ${asset.room.floor})`
                                         : "-"
                                 }
                             />

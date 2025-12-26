@@ -20,15 +20,18 @@ import {
 
 // Schema untuk maintenance form
 const maintenanceFormSchema = z.object({
-    updateOsVersion: z.boolean().default(false),
-    updateCondition: z.boolean().default(false),
-    updateComplianceStatus: z.boolean().default(false),
-    osVersion: z.string().optional(),
-    condition: z.enum(["baik", "rusak", "rusak berat"]).optional(),
-    complianceStatus: z
-        .enum(["sesuai", "tidak sesuai", "pengecualian", "belum dicek"])
-        .optional(),
-    remarks: z.string().optional(),
+    updateOsVersion: z.boolean(),
+    updateCondition: z.boolean(),
+    updateComplianceStatus: z.boolean(),
+    osVersion: z.string(),
+    condition: z.enum(["baik", "rusak", "rusak berat"]),
+    complianceStatus: z.enum([
+        "sesuai",
+        "tidak sesuai",
+        "pengecualian",
+        "belum dicek",
+    ]),
+    remarks: z.string(),
 });
 
 type MaintenanceFormInput = ZInfer<typeof maintenanceFormSchema>;
@@ -47,6 +50,7 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const formId = useId();
     const remarksId = useId();
 
     const form = useForm<MaintenanceFormInput>({
@@ -148,6 +152,7 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
                 </SheetHeader>
 
                 <form
+                    id={formId}
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="flex flex-col gap-6 p-4"
                 >
@@ -320,27 +325,28 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
                             </Field>
                         )}
                     />
-
-                    <SheetFooter>
-                        <SheetClose
-                            render={
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    disabled={isSubmitting}
-                                />
-                            }
-                        >
-                            Batal
-                        </SheetClose>
-                        <Button
-                            type="submit"
-                            disabled={isSubmitting || hasNoSelection}
-                        >
-                            {isSubmitting ? "Menyimpan..." : "Simpan"}
-                        </Button>
-                    </SheetFooter>
                 </form>
+
+                <SheetFooter>
+                    <SheetClose
+                        render={
+                            <Button
+                                type="button"
+                                variant="outline"
+                                disabled={isSubmitting}
+                            />
+                        }
+                    >
+                        Batal
+                    </SheetClose>
+                    <Button
+                        form={formId}
+                        type="submit"
+                        disabled={isSubmitting || hasNoSelection}
+                    >
+                        {isSubmitting ? "Menyimpan..." : "Simpan"}
+                    </Button>
+                </SheetFooter>
             </SheetContent>
         </Sheet>
     );
