@@ -393,17 +393,16 @@ function AssetDetailView() {
                             <div className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
-                                        <TableRow>
+                                        <TableRow head>
                                             <TableHead>Tanggal</TableHead>
                                             <TableHead>Kategori</TableHead>
-                                            <TableHead>Tipe</TableHead>
                                             <TableHead>Catatan</TableHead>
                                             <TableHead>User</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {activities.map((activity) => (
-                                            <TableRow key={activity.id}>
+                                            <TableRow key={activity.id} body>
                                                 <TableCell>
                                                     {new Date(
                                                         activity.createdAt,
@@ -422,9 +421,6 @@ function AssetDetailView() {
                                                             activity.category
                                                         }
                                                     />
-                                                </TableCell>
-                                                <TableCell>
-                                                    {activity.type}
                                                 </TableCell>
                                                 <TableCell>
                                                     {activity.remarks ?? "-"}

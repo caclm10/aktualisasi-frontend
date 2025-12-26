@@ -34,9 +34,8 @@ type MaintenanceFormInput = ZInfer<typeof maintenanceFormSchema>;
 interface MaintenanceDialogProps {
     asset: Asset;
     onMaintenance: (data: {
-        osVersion?: string;
-        condition?: AssetCondition;
-        baseline?: AssetBaseline;
+        property: string;
+        new: string;
         remarks?: string;
     }) => Promise<void>;
 }
@@ -86,21 +85,24 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
         setIsSubmitting(true);
 
         try {
-            const payload: {
-                osVersion?: string;
-                condition?: AssetCondition;
-                baseline?: AssetBaseline;
-                remarks?: string;
-            } = {};
-
-            // Hanya kirim field yang dipilih
+            // Ambil value berdasarkan field yang dipilih
+            let newValue: string = "";
             if (data.fieldToUpdate === "osVersion") {
-                payload.osVersion = data.osVersion;
+                newValue = data.osVersion;
             } else if (data.fieldToUpdate === "condition") {
-                payload.condition = data.condition;
+                newValue = data.condition;
             } else if (data.fieldToUpdate === "baseline") {
-                payload.baseline = data.baseline;
+                newValue = data.baseline;
             }
+
+            const payload: {
+                property: string;
+                new: string;
+                remarks?: string;
+            } = {
+                property: data.fieldToUpdate,
+                new: newValue,
+            };
 
             if (data.remarks?.trim()) {
                 payload.remarks = data.remarks.trim();

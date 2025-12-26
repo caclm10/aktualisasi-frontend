@@ -213,6 +213,7 @@ declare global {
   const useResolvedPath: typeof import('react-router').useResolvedPath
   const useRoutes: typeof import('react-router').useRoutes
   const useSWR: typeof import('swr').default
+  const useSWRConfig: typeof import('swr').useSWRConfig
   const useSidebar: typeof import('./components/ui/sidebar').useSidebar
   const useState: typeof import('react').useState
   const useSyncExternalStore: typeof import('react').useSyncExternalStore

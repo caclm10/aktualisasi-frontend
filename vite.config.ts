@@ -25,7 +25,7 @@ export default defineConfig({
 
                     "@hookform/resolvers/zod": ["zodResolver"],
 
-                    swr: [["default", "useSWR"]],
+                    swr: [["default", "useSWR"], "useSWRConfig"],
 
                     "class-variance-authority": ["cva"],
 

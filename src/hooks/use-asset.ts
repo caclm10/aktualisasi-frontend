@@ -39,6 +39,8 @@ export function useAsset() {
 }
 
 export function useAssetDetail(id: string) {
+    const { mutate: globalMutate } = useSWRConfig();
+
     const {
         data: asset,
         error,
@@ -122,15 +124,15 @@ export function useAssetDetail(id: string) {
     }
 
     async function maintenanceAsset(data: {
-        osVersion?: string;
-        condition?: AssetCondition;
-        baseline?: AssetBaseline;
+        property: string;
+        new: string;
         remarks?: string;
     }) {
         try {
             await http.post(`/api/assets/${id}/maintenance`, data);
 
             await mutate();
+            await globalMutate(`/api/assets/${id}/activities`);
 
             toast.success("Maintenance aset berhasil dilakukan");
         } catch (error) {
@@ -150,6 +152,7 @@ export function useAssetDetail(id: string) {
             await http.post(`/api/assets/${id}/mutasi`, data);
 
             await mutate();
+            await globalMutate(`/api/assets/${id}/activities`);
 
             toast.success("Aset berhasil dipindahkan");
         } catch (error) {
