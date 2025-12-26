@@ -11,7 +11,7 @@ function MainLayout() {
                     </div>
                 </header>
 
-                <div className="p-4 pt-0">
+                <div className="@container/main p-4 pt-0">
                     <Outlet />
                 </div>
             </SidebarInset>

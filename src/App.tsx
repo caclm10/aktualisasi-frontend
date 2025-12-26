@@ -21,10 +21,7 @@ function AppRoutes() {
                 </Route>
 
                 <Route element={<MainLayout />}>
-                    {/* <Route
-                        path="dashboard"
-                        element={<Navigate to="/assets" />}
-                    /> */}
+                    <Route path="dashboard" element={<DashboardView />} />
 
                     <Route path="assets">
                         <Route index element={<AssetIndexView />} />

@@ -36,6 +36,7 @@ declare global {
   const AvatarGroupCount: typeof import('./components/ui/avatar').AvatarGroupCount
   const AvatarImage: typeof import('./components/ui/avatar').AvatarImage
   const BackButton: typeof import('./components/back-button').BackButton
+  const Badge: typeof import('./components/ui/badge').Badge
   const BaselineBadge: typeof import('./views/asset-detail-view').BaselineBadge
   const Button: typeof import('./components/ui/button').Button
   const Card: typeof import('./components/ui/card').Card
@@ -45,10 +46,24 @@ declare global {
   const CardFooter: typeof import('./components/ui/card').CardFooter
   const CardHeader: typeof import('./components/ui/card').CardHeader
   const CardTitle: typeof import('./components/ui/card').CardTitle
+  const Char: typeof import('./components/char-area-gradient').Char
+  const ChartAreaGradient: typeof import('./components/char-area-gradient').ChartAreaGradient
+  const ChartContainer: typeof import('./components/ui/chart').ChartContainer
+  const ChartLegend: typeof import('./components/ui/chart').ChartLegend
+  const ChartLegendContent: typeof import('./components/ui/chart').ChartLegendContent
+  const ChartStyle: typeof import('./components/ui/chart').ChartStyle
+  const ChartTooltip: typeof import('./components/ui/chart').ChartTooltip
+  const ChartTooltipContent: typeof import('./components/ui/chart').ChartTooltipContent
   const Checkbox: typeof import('./components/ui/checkbox').Checkbox
   const ComplianceStatusBadge: typeof import('./views/asset-detail-view').ComplianceStatusBadge
   const ConditionBadge: typeof import('./components/asset-list-table').ConditionBadge
   const Controller: typeof import('react-hook-form').Controller
+  const DashboardCards: typeof import('./components/dashboard-cards').DashboardCards
+  const DashboardCardsItem: typeof import('./components/dashboard-cards').DashboardCardsItem
+  const DashboardChart: typeof import('./components/dashboard-chart').DashboardChart
+  const DashboardEosWarning: typeof import('./components/dashboard-eos-warning').DashboardEosWarning
+  const DashboardTable: typeof import('./components/ui/dashboard-table').DashboardTable
+  const DashboardView: typeof import('./views/dashboard-view').DashboardView
   const DeploymentStatusBadge: typeof import('./components/asset-list-table').DeploymentStatusBadge
   const DropdownMenu: typeof import('./components/ui/dropdown-menu').DropdownMenu
   const DropdownMenuCheckboxItem: typeof import('./components/ui/dropdown-menu').DropdownMenuCheckboxItem
@@ -160,6 +175,7 @@ declare global {
   const TooltipTrigger: typeof import('./components/ui/tooltip').TooltipTrigger
   const ValidationError: typeof import('./lib/errors').ValidationError
   const activityPropertiesLabel: typeof import('./schemas/activity-schema').activityPropertiesLabel
+  const badgeVariants: typeof import('./components/ui/badge').badgeVariants
   const buttonVariants: typeof import('./components/ui/button').buttonVariants
   const cache: typeof import('react').cache
   const cacheSignal: typeof import('react').cacheSignal
@@ -170,6 +186,7 @@ declare global {
   const createRef: typeof import('react').createRef
   const createRoomFormSchema: typeof import('./schemas/room-schema').createRoomFormSchema
   const cva: typeof import('class-variance-authority').cva
+  const description: typeof import('./components/dashboard-chart').description
   const forwardRef: typeof import('react').forwardRef
   const http: typeof import('./lib/http').http
   const isHttpError: typeof import('./lib/http').isHttpError
@@ -232,6 +249,9 @@ declare global {
   // @ts-ignore
   export type { VariantProps } from 'class-variance-authority'
   import('class-variance-authority')
+  // @ts-ignore
+  export type { ChartConfig } from './components/ui/chart'
+  import('./components/ui/chart')
   // @ts-ignore
   export type { HttpResponse } from './lib/http'
   import('./lib/http')
