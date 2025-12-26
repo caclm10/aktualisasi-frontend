@@ -21,10 +21,10 @@ function AppRoutes() {
                 </Route>
 
                 <Route element={<MainLayout />}>
-                    <Route
+                    {/* <Route
                         path="dashboard"
                         element={<Navigate to="/assets" />}
-                    />
+                    /> */}
 
                     <Route path="assets">
                         <Route index element={<AssetIndexView />} />
@@ -55,6 +55,10 @@ function AppRoutes() {
                                 />
                             </Route>
                         </Route>
+                    </Route>
+
+                    <Route path="activities">
+                        <Route index element={<ActivityIndexView />} />
                     </Route>
                 </Route>
 

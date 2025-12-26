@@ -7,6 +7,7 @@
 export {}
 declare global {
   const Activity: typeof import('react').Activity
+  const ActivityIndexView: typeof import('./views/activity-index-view').ActivityIndexView
   const AlertDialog: typeof import('./components/ui/alert-dialog').AlertDialog
   const AlertDialogAction: typeof import('./components/ui/alert-dialog').AlertDialogAction
   const AlertDialogCancel: typeof import('./components/ui/alert-dialog').AlertDialogCancel
@@ -181,6 +182,7 @@ declare global {
   const toast: typeof import('sonner').toast
   const use: typeof import('react').use
   const useActionState: typeof import('react').useActionState
+  const useActivities: typeof import('./hooks/use-activity').useActivities
   const useAsset: typeof import('./hooks/use-asset').useAsset
   const useAssetActivities: typeof import('./hooks/use-activity').useAssetActivities
   const useAssetDetail: typeof import('./hooks/use-asset').useAssetDetail
