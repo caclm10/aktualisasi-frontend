@@ -1,7 +1,15 @@
-import { AlertTriangleIcon, CalendarIcon } from "lucide-react";
+import {
+    AlertTriangleIcon,
+    CalendarIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
+} from "lucide-react";
+
+const ITEMS_PER_PAGE = 5;
 
 function DashboardEosWarning() {
     const { assets } = useAsset();
+    const [currentPage, setCurrentPage] = useState(1);
 
     // Filter assets with EOS date within 2 years
     const assetsNearEos = useMemo(() => {
@@ -27,6 +35,14 @@ function DashboardEosWarning() {
             });
     }, [assets]);
 
+    // Pagination
+    const totalPages = Math.ceil(assetsNearEos.length / ITEMS_PER_PAGE);
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const paginatedAssets = assetsNearEos.slice(
+        startIndex,
+        startIndex + ITEMS_PER_PAGE,
+    );
+
     if (assetsNearEos.length === 0) {
         return null;
     }
@@ -39,7 +55,8 @@ function DashboardEosWarning() {
                     <CardTitle>Peringatan EOS</CardTitle>
                 </div>
                 <CardDescription>
-                    Aset dengan End of Support dalam 2 tahun ke depan
+                    Aset dengan End of Support dalam 2 tahun ke depan (
+                    {assetsNearEos.length} aset)
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -53,7 +70,7 @@ function DashboardEosWarning() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {assetsNearEos.map((asset) => {
+                        {paginatedAssets.map((asset) => {
                             const eosDate = new Date(asset.eosDate!);
                             const now = new Date();
                             const diffTime = eosDate.getTime() - now.getTime();
@@ -129,6 +146,41 @@ function DashboardEosWarning() {
                         })}
                     </TableBody>
                 </Table>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                    <div className="mt-4 flex items-center justify-between">
+                        <p className="text-muted-foreground text-sm">
+                            Halaman {currentPage} dari {totalPages}
+                        </p>
+                        <div className="flex items-center gap-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() =>
+                                    setCurrentPage((prev) =>
+                                        Math.max(prev - 1, 1),
+                                    )
+                                }
+                                disabled={currentPage === 1}
+                            >
+                                <ChevronLeftIcon className="size-4" />
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() =>
+                                    setCurrentPage((prev) =>
+                                        Math.min(prev + 1, totalPages),
+                                    )
+                                }
+                                disabled={currentPage === totalPages}
+                            >
+                                <ChevronRightIcon className="size-4" />
+                            </Button>
+                        </div>
+                    </div>
+                )}
             </CardContent>
         </Card>
     );

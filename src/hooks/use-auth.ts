@@ -18,7 +18,7 @@ export const useAuth = ({ middleware = "auth" }: UseAuthProps = {}) => {
         try {
             await http.get("/sanctum/csrf-cookie");
 
-            await http.post("/login", data);
+            await http.post("/api/login", data);
 
             await mutate();
 
@@ -36,7 +36,7 @@ export const useAuth = ({ middleware = "auth" }: UseAuthProps = {}) => {
 
     async function logout() {
         if (!error) {
-            await http.delete("/logout").then(() => mutate());
+            await http.delete("/api/logout").then(() => mutate());
         }
 
         await mutate(null, { revalidate: false });
