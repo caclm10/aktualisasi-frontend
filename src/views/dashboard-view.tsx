@@ -17,6 +17,8 @@ function DashboardView() {
                     <DashboardEosWarning />
                     <DashboardTable />
                 </div>
+
+                {/* <ChartAreaInteractive /> */}
             </div>
         </>
     );

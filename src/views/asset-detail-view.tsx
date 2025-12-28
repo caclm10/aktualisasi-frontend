@@ -134,6 +134,9 @@ function AssetDetailView() {
             />
 
             <div className="flex flex-col gap-6">
+                {/* EOS Warning Alert */}
+                <EosWarningAlert eosDate={asset.eosDate} />
+
                 {/* Asset Image Card */}
                 <Card>
                     <CardHeader>

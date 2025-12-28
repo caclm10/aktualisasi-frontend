@@ -9,6 +9,9 @@ declare global {
   const Activity: typeof import('react').Activity
   const ActivityIndexView: typeof import('./views/activity-index-view').ActivityIndexView
   const ActivityListTable: typeof import('./components/activity-list-table').ActivityListTable
+  const Alert: typeof import('./components/ui/alert').Alert
+  const AlertAction: typeof import('./components/ui/alert').AlertAction
+  const AlertDescription: typeof import('./components/ui/alert').AlertDescription
   const AlertDialog: typeof import('./components/ui/alert-dialog').AlertDialog
   const AlertDialogAction: typeof import('./components/ui/alert-dialog').AlertDialogAction
   const AlertDialogCancel: typeof import('./components/ui/alert-dialog').AlertDialogCancel
@@ -21,6 +24,7 @@ declare global {
   const AlertDialogPortal: typeof import('./components/ui/alert-dialog').AlertDialogPortal
   const AlertDialogTitle: typeof import('./components/ui/alert-dialog').AlertDialogTitle
   const AlertDialogTrigger: typeof import('./components/ui/alert-dialog').AlertDialogTrigger
+  const AlertTitle: typeof import('./components/ui/alert').AlertTitle
   const AppSidebar: typeof import('./components/app-sidebar').AppSidebar
   const AssetCreateForm: typeof import('./components/asset-create-form').AssetCreateForm
   const AssetCreateView: typeof import('./views/asset-create-view').AssetCreateView
@@ -50,6 +54,7 @@ declare global {
   const CategoryBadge: typeof import('./components/activity-list-table').CategoryBadge
   const Char: typeof import("./components/char-area-gradient").Char
   const ChartAreaGradient: typeof import("./components/char-area-gradient").ChartAreaGradient
+  const ChartAreaInteractive: typeof import('./components/chart-area-interactive').ChartAreaInteractive
   const ChartContainer: typeof import('./components/ui/chart').ChartContainer
   const ChartLegend: typeof import('./components/ui/chart').ChartLegend
   const ChartLegendContent: typeof import('./components/ui/chart').ChartLegendContent
@@ -82,6 +87,7 @@ declare global {
   const DropdownMenuSubContent: typeof import('./components/ui/dropdown-menu').DropdownMenuSubContent
   const DropdownMenuSubTrigger: typeof import('./components/ui/dropdown-menu').DropdownMenuSubTrigger
   const DropdownMenuTrigger: typeof import('./components/ui/dropdown-menu').DropdownMenuTrigger
+  const EosWarningAlert: typeof import('./components/eos-warning-alert').EosWarningAlert
   const Field: typeof import('./components/ui/field').Field
   const FieldContent: typeof import('./components/ui/field').FieldContent
   const FieldDescription: typeof import('./components/ui/field').FieldDescription
@@ -189,7 +195,7 @@ declare global {
   const createRef: typeof import('react').createRef
   const createRoomFormSchema: typeof import('./schemas/room-schema').createRoomFormSchema
   const cva: typeof import('class-variance-authority').cva
-  const description: typeof import("./components/dashboard-chart").description
+  const description: typeof import('./components/chart-area-interactive').description
   const forwardRef: typeof import('react').forwardRef
   const http: typeof import('./lib/http').http
   const isHttpError: typeof import('./lib/http').isHttpError

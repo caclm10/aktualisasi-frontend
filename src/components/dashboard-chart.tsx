@@ -17,18 +17,21 @@ import {
 } from "@/components/ui/chart";
 
 const chartConfig = {
+    aktivitas: {
+        label: "Aktivitas",
+    },
     pemeliharaan: {
         label: "Pemeliharaan",
-        color: "var(--chart-1)",
+        color: "hsl(270, 70%, 50%)", // purple
     },
     perjalanan: {
         label: "Perjalanan",
-        color: "var(--chart-2)",
+        color: "hsl(210, 100%, 50%)", // blue
     },
 } satisfies ChartConfig;
 
 function DashboardChart() {
-    const { activities } = useActivities();
+    const { activities, isLoading } = useActivities();
 
     // Group activities by month
     const chartData = useMemo(() => {
@@ -56,7 +59,7 @@ function DashboardChart() {
 
         // Count activities per month
         activities.forEach((activity) => {
-            const date = new Date(activity.createdAt);
+            const date = new Date(activity.performedAt);
             const monthKey = date.toLocaleDateString("id-ID", {
                 month: "long",
                 year: "numeric",
@@ -74,41 +77,52 @@ function DashboardChart() {
         return Object.values(monthlyData);
     }, [activities]);
 
+    if (isLoading) {
+        return (
+            <Card className="@container/card">
+                <CardHeader>
+                    <CardTitle>Aktivitas Aset</CardTitle>
+                    <CardDescription>
+                        Aktivitas pemeliharaan dan perjalanan 6 bulan terakhir
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
+                    <div className="flex h-[250px] w-full items-center justify-center">
+                        <span className="text-muted-foreground">
+                            Memuat data...
+                        </span>
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    }
+
     return (
-        <Card>
+        <Card className="@container/card">
             <CardHeader>
                 <CardTitle>Aktivitas Aset</CardTitle>
                 <CardDescription>
-                    Aktivitas pemeliharaan dan perjalanan 6 bulan terakhir
+                    <span className="hidden @[540px]/card:block">
+                        Aktivitas pemeliharaan dan perjalanan 6 bulan terakhir
+                    </span>
+                    <span className="@[540px]/card:hidden">
+                        6 bulan terakhir
+                    </span>
                 </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
                 <ChartContainer
                     config={chartConfig}
                     className="aspect-auto h-[250px] w-full"
                 >
                     <AreaChart
-                        accessibilityLayer
                         data={chartData}
                         margin={{
+                            top: 12,
                             left: 12,
                             right: 12,
                         }}
                     >
-                        <CartesianGrid vertical={false} />
-                        <XAxis
-                            dataKey="month"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={8}
-                            tickFormatter={(value) =>
-                                value.split(" ")[0].slice(0, 3)
-                            }
-                        />
-                        <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent />}
-                        />
                         <defs>
                             <linearGradient
                                 id="fillPemeliharaan"
@@ -120,7 +134,7 @@ function DashboardChart() {
                                 <stop
                                     offset="5%"
                                     stopColor="var(--color-pemeliharaan)"
-                                    stopOpacity={0.8}
+                                    stopOpacity={1.0}
                                 />
                                 <stop
                                     offset="95%"
@@ -147,19 +161,32 @@ function DashboardChart() {
                                 />
                             </linearGradient>
                         </defs>
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                            dataKey="month"
+                            tickLine={false}
+                            axisLine={false}
+                            tickMargin={8}
+                            minTickGap={32}
+                            tickFormatter={(value) => {
+                                return value.split(" ")[0].slice(0, 3);
+                            }}
+                        />
+                        <ChartTooltip
+                            cursor={false}
+                            content={<ChartTooltipContent />}
+                        />
                         <Area
                             dataKey="perjalanan"
-                            type="natural"
+                            type="monotone"
                             fill="url(#fillPerjalanan)"
-                            fillOpacity={0.4}
                             stroke="var(--color-perjalanan)"
                             stackId="a"
                         />
                         <Area
                             dataKey="pemeliharaan"
-                            type="natural"
+                            type="monotone"
                             fill="url(#fillPemeliharaan)"
-                            fillOpacity={0.4}
                             stroke="var(--color-pemeliharaan)"
                             stackId="a"
                         />
