@@ -8,6 +8,7 @@ export {}
 declare global {
   const Activity: typeof import('react').Activity
   const ActivityIndexView: typeof import('./views/activity-index-view').ActivityIndexView
+  const ActivityListTable: typeof import('./components/activity-list-table').ActivityListTable
   const AlertDialog: typeof import('./components/ui/alert-dialog').AlertDialog
   const AlertDialogAction: typeof import('./components/ui/alert-dialog').AlertDialogAction
   const AlertDialogCancel: typeof import('./components/ui/alert-dialog').AlertDialogCancel
@@ -46,8 +47,9 @@ declare global {
   const CardFooter: typeof import('./components/ui/card').CardFooter
   const CardHeader: typeof import('./components/ui/card').CardHeader
   const CardTitle: typeof import('./components/ui/card').CardTitle
-  const Char: typeof import('./components/char-area-gradient').Char
-  const ChartAreaGradient: typeof import('./components/char-area-gradient').ChartAreaGradient
+  const CategoryBadge: typeof import('./components/activity-list-table').CategoryBadge
+  const Char: typeof import("./components/char-area-gradient").Char
+  const ChartAreaGradient: typeof import("./components/char-area-gradient").ChartAreaGradient
   const ChartContainer: typeof import('./components/ui/chart').ChartContainer
   const ChartLegend: typeof import('./components/ui/chart').ChartLegend
   const ChartLegendContent: typeof import('./components/ui/chart').ChartLegendContent
@@ -55,11 +57,11 @@ declare global {
   const ChartTooltip: typeof import('./components/ui/chart').ChartTooltip
   const ChartTooltipContent: typeof import('./components/ui/chart').ChartTooltipContent
   const Checkbox: typeof import('./components/ui/checkbox').Checkbox
-  const ComplianceStatusBadge: typeof import('./views/asset-detail-view').ComplianceStatusBadge
+  const ComplianceStatusBadge: typeof import("./views/asset-detail-view").ComplianceStatusBadge
   const ConditionBadge: typeof import('./components/asset-list-table').ConditionBadge
   const Controller: typeof import('react-hook-form').Controller
   const DashboardCards: typeof import('./components/dashboard-cards').DashboardCards
-  const DashboardCardsItem: typeof import('./components/dashboard-cards').DashboardCardsItem
+  const DashboardCardsItem: typeof import("./components/dashboard-cards").DashboardCardsItem
   const DashboardChart: typeof import('./components/dashboard-chart').DashboardChart
   const DashboardEosWarning: typeof import('./components/dashboard-eos-warning').DashboardEosWarning
   const DashboardTable: typeof import('./components/ui/dashboard-table').DashboardTable
@@ -120,7 +122,7 @@ declare global {
   const Select: typeof import('./components/ui/select').Select
   const SelectContent: typeof import('./components/ui/select').SelectContent
   const SelectGroup: typeof import('./components/ui/select').SelectGroup
-  const SelectGroupLabel: typeof import('./components/ui/select').SelectGroupLabel
+  const SelectGroupLabel: typeof import("./components/ui/select").SelectGroupLabel
   const SelectItem: typeof import('./components/ui/select').SelectItem
   const SelectLabel: typeof import('./components/ui/select').SelectLabel
   const SelectScrollDownButton: typeof import('./components/ui/select').SelectScrollDownButton
@@ -180,13 +182,14 @@ declare global {
   const cache: typeof import('react').cache
   const cacheSignal: typeof import('react').cacheSignal
   const cn: typeof import('./lib/utils').cn
+  const columns: typeof import('./components/data-table-demo').columns
   const createAssetFormSchema: typeof import('./schemas/asset-schema').createAssetFormSchema
   const createContext: typeof import('react').createContext
   const createOfficeFormSchema: typeof import('./schemas/office-schema').createOfficeFormSchema
   const createRef: typeof import('react').createRef
   const createRoomFormSchema: typeof import('./schemas/room-schema').createRoomFormSchema
   const cva: typeof import('class-variance-authority').cva
-  const description: typeof import('./components/dashboard-chart').description
+  const description: typeof import("./components/dashboard-chart").description
   const forwardRef: typeof import('react').forwardRef
   const http: typeof import('./lib/http').http
   const isHttpError: typeof import('./lib/http').isHttpError

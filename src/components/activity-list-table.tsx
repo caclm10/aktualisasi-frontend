@@ -15,9 +15,8 @@ import {
 import {
     ArrowUpDown,
     ChevronDown,
-    EyeIcon,
+    HistoryIcon,
     SearchIcon,
-    ServerIcon,
 } from "lucide-react";
 import * as React from "react";
 
@@ -39,24 +38,27 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-interface AssetListTableProps {
-    data?: Asset[];
+interface ActivityListTableProps {
+    data?: Activity[];
+    isLoading?: boolean;
 }
 
-const columns: ColumnDef<Asset>[] = [
+const columns: ColumnDef<Activity>[] = [
     {
-        id: "no",
-        header: "No",
-        cell: ({ row }) => (
-            <span className="text-muted-foreground text-sm">
-                {row.index + 1}
-            </span>
-        ),
-        enableSorting: false,
-        enableHiding: false,
+        id: "date",
+        accessorFn: (row) => row.createdAt,
+        header: "Tanggal",
+        cell: ({ row }) =>
+            new Date(row.original.createdAt).toLocaleDateString("id-ID", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+            }),
+        enableSorting: true,
     },
     {
-        accessorKey: "hostname",
+        id: "asset",
+        accessorFn: (row) => row.asset?.hostname || "",
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -64,17 +66,22 @@ const columns: ColumnDef<Asset>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Hostname
+                Aset
                 <ArrowUpDown />
             </Button>
         ),
         cell: ({ row }) => (
-            <span className="font-medium">{row.getValue("hostname")}</span>
+            <Link
+                to={`/assets/${row.original.assetId}`}
+                className="text-primary hover:underline"
+            >
+                {row.original.asset?.hostname ?? "-"}
+            </Link>
         ),
     },
     {
-        id: "brandModel",
-        accessorFn: (row) => `${row.brand} ${row.model}`,
+        id: "category",
+        accessorFn: (row) => row.category,
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -82,32 +89,15 @@ const columns: ColumnDef<Asset>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Brand / Model
+                Kategori
                 <ArrowUpDown />
             </Button>
         ),
-        cell: ({ row }) => (
-            <div className="flex flex-col">
-                <span>{row.original.brand}</span>
-                <span className="text-muted-foreground text-xs">
-                    {row.original.model}
-                </span>
-            </div>
-        ),
+        cell: ({ row }) => <CategoryBadge category={row.original.category} />,
     },
     {
-        accessorKey: "serialNumber",
-        header: "Serial Number",
-        cell: ({ row }) => (
-            <code className="text-muted-foreground font-mono text-xs">
-                {row.getValue("serialNumber")}
-            </code>
-        ),
-    },
-    {
-        id: "location",
-        accessorFn: (row) =>
-            row.room ? `${row.room.name} ${row.room.office?.name || ""}` : "",
+        id: "property",
+        accessorFn: (row) => row.property,
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -115,28 +105,35 @@ const columns: ColumnDef<Asset>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Lokasi
+                Properti
                 <ArrowUpDown />
             </Button>
         ),
-        cell: ({ row }) => {
-            const asset = row.original;
-            return asset.room ? (
-                <div className="flex flex-col">
-                    <span>
-                        {asset.room.name} (Lantai {asset.room.floor})
-                    </span>
-                    <span className="text-muted-foreground text-xs">
-                        {asset.room.office?.name}
-                    </span>
-                </div>
-            ) : (
-                <span className="text-muted-foreground">-</span>
-            );
-        },
+        cell: ({ row }) =>
+            activityPropertiesLabel[row.original.property] ||
+            row.original.property,
     },
     {
-        accessorKey: "condition",
+        id: "oldValue",
+        accessorKey: "old",
+        header: "Nilai Lama",
+        cell: ({ row }) => row.original.old || "-",
+    },
+    {
+        id: "newValue",
+        accessorKey: "new",
+        header: "Nilai Baru",
+        cell: ({ row }) => row.original.new || "-",
+    },
+    {
+        id: "remarks",
+        accessorKey: "remarks",
+        header: "Catatan",
+        cell: ({ row }) => row.original.remarks ?? "-",
+    },
+    {
+        id: "user",
+        accessorFn: (row) => row.user?.name || "",
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -144,37 +141,15 @@ const columns: ColumnDef<Asset>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Kondisi
+                User
                 <ArrowUpDown />
             </Button>
         ),
-        cell: ({ row }) => (
-            <ConditionBadge condition={row.getValue("condition")} />
-        ),
-        filterFn: (row, id, value) => {
-            return value.includes(row.getValue(id));
-        },
-    },
-    {
-        id: "actions",
-        header: "Aksi",
-        enableHiding: false,
-        cell: ({ row }) => {
-            const asset = row.original;
-            return (
-                <Link
-                    to={`/assets/${asset.id}`}
-                    title="Lihat Detail"
-                    className="text-muted-foreground hover:bg-muted hover:text-foreground inline-flex size-8 items-center justify-center rounded-md transition-colors"
-                >
-                    <EyeIcon className="size-4" />
-                </Link>
-            );
-        },
+        cell: ({ row }) => row.original.user?.name ?? "-",
     },
 ];
 
-function AssetListTable({ data = [] }: AssetListTableProps) {
+function ActivityListTable({ data = [], isLoading }: ActivityListTableProps) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
@@ -195,23 +170,28 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
         onGlobalFilterChange: setGlobalFilter,
         globalFilterFn: (row, _columnId, filterValue) => {
             const search = filterValue.toLowerCase();
-            const hostname = row.original.hostname?.toLowerCase() || "";
-            const brand = row.original.brand?.toLowerCase() || "";
-            const model = row.original.model?.toLowerCase() || "";
-            const serialNumber = row.original.serialNumber?.toLowerCase() || "";
-            const roomName = row.original.room?.name?.toLowerCase() || "";
-            const officeName =
-                row.original.room?.office?.name?.toLowerCase() || "";
-            const condition = row.original.condition?.toLowerCase() || "";
+            const assetHostname =
+                row.original.asset?.hostname?.toLowerCase() || "";
+            const category = row.original.category?.toLowerCase() || "";
+            const categoryLabel =
+                category === "perjalanan"
+                    ? "perjalanan"
+                    : category === "pemeliharaan"
+                      ? "pemeliharaan"
+                      : "";
+            const property = row.original.property?.toLowerCase() || "";
+            const propertyLabel =
+                activityPropertiesLabel[row.original.property]?.toLowerCase() ||
+                "";
+            const userName = row.original.user?.name?.toLowerCase() || "";
 
             return (
-                hostname.includes(search) ||
-                brand.includes(search) ||
-                model.includes(search) ||
-                serialNumber.includes(search) ||
-                roomName.includes(search) ||
-                officeName.includes(search) ||
-                condition.includes(search)
+                assetHostname.includes(search) ||
+                category.includes(search) ||
+                categoryLabel.includes(search) ||
+                property.includes(search) ||
+                propertyLabel.includes(search) ||
+                userName.includes(search)
             );
         },
         state: {
@@ -222,12 +202,41 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
         },
     });
 
+    if (isLoading) {
+        return (
+            <Card>
+                <CardContent>
+                    <div className="flex items-center justify-center py-8">
+                        <div className="text-muted-foreground">
+                            Memuat aktivitas...
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    }
+
+    if (data.length === 0) {
+        return (
+            <Card>
+                <CardContent>
+                    <div className="flex flex-col items-center justify-center gap-3 py-12">
+                        <HistoryIcon className="text-muted-foreground size-12" />
+                        <div className="text-muted-foreground">
+                            Belum ada aktivitas
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    }
+
     return (
         <Card>
             <CardHeader>
                 <div className="flex items-center gap-2">
-                    <ServerIcon className="text-muted-foreground size-5" />
-                    <CardTitle>Daftar Aset</CardTitle>
+                    <HistoryIcon className="text-muted-foreground size-5" />
+                    <CardTitle>Riwayat Aktivitas</CardTitle>
                 </div>
             </CardHeader>
 
@@ -237,7 +246,7 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
                         <div className="relative max-w-sm flex-1">
                             <SearchIcon className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                             <Input
-                                placeholder="Cari hostname, brand, model, serial number, lokasi..."
+                                placeholder="Cari aset, kategori, properti, user..."
                                 value={globalFilter}
                                 onChange={(event) =>
                                     setGlobalFilter(event.target.value)
@@ -265,11 +274,14 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
                                             string,
                                             string
                                         > = {
-                                            hostname: "Hostname",
-                                            brandModel: "Brand / Model",
-                                            serialNumber: "Serial Number",
-                                            location: "Lokasi",
-                                            condition: "Kondisi",
+                                            date: "Tanggal",
+                                            asset: "Aset",
+                                            category: "Kategori",
+                                            property: "Properti",
+                                            oldValue: "Nilai Lama",
+                                            newValue: "Nilai Baru",
+                                            remarks: "Catatan",
+                                            user: "User",
                                         };
                                         return (
                                             <DropdownMenuCheckboxItem
@@ -295,18 +307,7 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
                                 {table.getHeaderGroups().map((headerGroup) => (
                                     <TableRow key={headerGroup.id} head>
                                         {headerGroup.headers.map((header) => (
-                                            <TableHead
-                                                key={header.id}
-                                                className={
-                                                    header.column.id ===
-                                                    "actions"
-                                                        ? "w-20 pr-0 text-center"
-                                                        : header.column.id ===
-                                                            "no"
-                                                          ? "w-12"
-                                                          : ""
-                                                }
-                                            >
+                                            <TableHead key={header.id}>
                                                 {header.isPlaceholder
                                                     ? null
                                                     : flexRender(
@@ -326,15 +327,7 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
                                             {row
                                                 .getVisibleCells()
                                                 .map((cell) => (
-                                                    <TableCell
-                                                        key={cell.id}
-                                                        className={
-                                                            cell.column.id ===
-                                                            "actions"
-                                                                ? "pr-0 text-center"
-                                                                : ""
-                                                        }
-                                                    >
+                                                    <TableCell key={cell.id}>
                                                         {flexRender(
                                                             cell.column
                                                                 .columnDef.cell,
@@ -350,7 +343,7 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
                                             colSpan={columns.length}
                                             className="text-muted-foreground h-24 text-center"
                                         >
-                                            Tidak ada aset yang ditemukan
+                                            Tidak ada aktivitas yang ditemukan
                                         </TableCell>
                                     </TableRow>
                                 )}
@@ -359,7 +352,7 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
                     </div>
                     <div className="flex items-center justify-end space-x-2 py-4">
                         <div className="text-muted-foreground flex-1 text-sm">
-                            {table.getFilteredRowModel().rows.length} aset
+                            {table.getFilteredRowModel().rows.length} aktivitas
                             ditemukan
                         </div>
                         <div className="space-x-2">
@@ -387,58 +380,29 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
     );
 }
 
-function ConditionBadge({ condition }: { condition: AssetCondition }) {
-    const variants: Record<AssetCondition, string> = {
-        baik: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
-        rusak: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
-        "rusak berat":
-            "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
-    };
-
-    const labels: Record<AssetCondition, string> = {
-        baik: "Baik",
-        rusak: "Rusak",
-        "rusak berat": "Rusak Berat",
-    };
-
-    return (
-        <span
-            className={cn(
-                "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
-                variants[condition],
-            )}
-        >
-            {labels[condition]}
-        </span>
-    );
-}
-
-function DeploymentStatusBadge({ status }: { status: AssetDeploymentStatus }) {
-    const variants: Record<AssetDeploymentStatus, string> = {
-        "in stock":
-            "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400",
-        deployed:
+function CategoryBadge({ category }: { category: ActivityCategory }) {
+    const variants: Record<ActivityCategory, string> = {
+        perjalanan:
             "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-        maintenance:
-            "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400",
+        pemeliharaan:
+            "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
     };
 
-    const labels: Record<AssetDeploymentStatus, string> = {
-        "in stock": "In Stock",
-        deployed: "Deployed",
-        maintenance: "Maintenance",
+    const labels: Record<ActivityCategory, string> = {
+        perjalanan: "Perjalanan",
+        pemeliharaan: "Pemeliharaan",
     };
 
     return (
         <span
             className={cn(
                 "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
-                variants[status],
+                variants[category],
             )}
         >
-            {labels[status]}
+            {labels[category]}
         </span>
     );
 }
 
-export { AssetListTable, ConditionBadge, DeploymentStatusBadge };
+export { ActivityListTable, CategoryBadge };
