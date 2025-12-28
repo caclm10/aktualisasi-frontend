@@ -41,18 +41,21 @@ import {
 interface ActivityListTableProps {
     data?: Activity[];
     isLoading?: boolean;
+    showAssetColumn?: boolean;
 }
 
 const columns: ColumnDef<Activity>[] = [
     {
         id: "date",
-        accessorFn: (row) => row.createdAt,
+        accessorFn: (row) => row.performedAt,
         header: "Tanggal",
         cell: ({ row }) =>
-            new Date(row.original.createdAt).toLocaleDateString("id-ID", {
+            new Date(row.original.performedAt).toLocaleString("id-ID", {
                 day: "numeric",
                 month: "short",
                 year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
             }),
         enableSorting: true,
     },
@@ -149,12 +152,18 @@ const columns: ColumnDef<Activity>[] = [
     },
 ];
 
-function ActivityListTable({ data = [], isLoading }: ActivityListTableProps) {
+function ActivityListTable({
+    data = [],
+    isLoading,
+    showAssetColumn = true,
+}: ActivityListTableProps) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] =
-        React.useState<VisibilityState>({});
+        React.useState<VisibilityState>({
+            asset: showAssetColumn,
+        });
     const [globalFilter, setGlobalFilter] = React.useState("");
 
     const table = useReactTable({
@@ -355,24 +364,26 @@ function ActivityListTable({ data = [], isLoading }: ActivityListTableProps) {
                             {table.getFilteredRowModel().rows.length} aktivitas
                             ditemukan
                         </div>
-                        <div className="space-x-2">
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => table.previousPage()}
-                                disabled={!table.getCanPreviousPage()}
-                            >
-                                Sebelumnya
-                            </Button>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => table.nextPage()}
-                                disabled={!table.getCanNextPage()}
-                            >
-                                Selanjutnya
-                            </Button>
-                        </div>
+                        {table.getPageCount() > 1 && (
+                            <div className="space-x-2">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => table.previousPage()}
+                                    disabled={!table.getCanPreviousPage()}
+                                >
+                                    Sebelumnya
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => table.nextPage()}
+                                    disabled={!table.getCanNextPage()}
+                                >
+                                    Selanjutnya
+                                </Button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </CardContent>

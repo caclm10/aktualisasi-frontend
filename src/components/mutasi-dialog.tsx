@@ -17,7 +17,11 @@ import {
 
 interface MutasiDialogProps {
     asset: Asset;
-    onMutasi: (data: { roomId: string; remarks?: string }) => Promise<void>;
+    onMutasi: (data: {
+        roomId: string;
+        performedAt: string;
+        remarks?: string;
+    }) => Promise<void>;
 }
 
 function MutasiDialog({ asset, onMutasi }: MutasiDialogProps) {
@@ -25,6 +29,9 @@ function MutasiDialog({ asset, onMutasi }: MutasiDialogProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [selectedRoomId, setSelectedRoomId] = useState("");
+    const [performedAt, setPerformedAt] = useState(
+        new Date().toISOString().slice(0, 16),
+    );
     const [remarks, setRemarks] = useState("");
     const [error, setError] = useState<{ message?: string } | undefined>(
         undefined,
@@ -34,6 +41,7 @@ function MutasiDialog({ asset, onMutasi }: MutasiDialogProps) {
 
     function resetForm() {
         setSelectedRoomId("");
+        setPerformedAt(new Date().toISOString().slice(0, 16));
         setRemarks("");
         setError(undefined);
     }
@@ -49,8 +57,13 @@ function MutasiDialog({ asset, onMutasi }: MutasiDialogProps) {
         setIsSubmitting(true);
 
         try {
-            const data: { roomId: string; remarks?: string } = {
+            const data: {
+                roomId: string;
+                performedAt: string;
+                remarks?: string;
+            } = {
                 roomId: selectedRoomId,
+                performedAt: new Date(performedAt).toISOString(),
             };
 
             if (remarks.trim()) {
@@ -115,6 +128,20 @@ function MutasiDialog({ asset, onMutasi }: MutasiDialogProps) {
                         isInvalid={!!error}
                         error={error}
                     />
+
+                    {/* Performed At */}
+                    <div className="space-y-2">
+                        <Label htmlFor="mutasi-performedAt">
+                            Tanggal Pelaksanaan
+                        </Label>
+                        <input
+                            id="mutasi-performedAt"
+                            type="datetime-local"
+                            value={performedAt}
+                            onChange={(e) => setPerformedAt(e.target.value)}
+                            className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                        />
+                    </div>
 
                     {/* Remarks */}
                     <div className="space-y-2">

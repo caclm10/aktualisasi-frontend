@@ -126,6 +126,7 @@ export function useAssetDetail(id: string) {
     async function maintenanceAsset(data: {
         property: string;
         new: string;
+        performedAt: string;
         remarks?: string;
     }) {
         try {
@@ -147,7 +148,11 @@ export function useAssetDetail(id: string) {
         }
     }
 
-    async function mutasiAsset(data: { roomId: string; remarks?: string }) {
+    async function mutasiAsset(data: {
+        roomId: string;
+        performedAt: string;
+        remarks?: string;
+    }) {
         try {
             await http.post(`/api/assets/${id}/mutation`, data);
 

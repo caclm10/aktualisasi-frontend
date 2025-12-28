@@ -119,6 +119,8 @@ declare global {
 
         remarks: string | null;
 
+        performedAt: string;
+
         // Timestamps
         createdAt: string;
         updatedAt: string;

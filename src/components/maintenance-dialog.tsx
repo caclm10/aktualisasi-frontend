@@ -26,6 +26,7 @@ const maintenanceFormSchema = z.object({
     osVersion: z.string(),
     condition: z.enum(["baik", "rusak", "rusak berat"]),
     baseline: z.enum(["sesuai", "tidak sesuai", "pengecualian", "belum dicek"]),
+    performedAt: z.string().min(1, "Tanggal pelaksanaan harus diisi"),
     remarks: z.string(),
 });
 
@@ -36,6 +37,7 @@ interface MaintenanceDialogProps {
     onMaintenance: (data: {
         property: string;
         new: string;
+        performedAt: string;
         remarks?: string;
     }) => Promise<void>;
 }
@@ -60,6 +62,7 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
             osVersion: asset.osVersion ?? "",
             condition: asset.condition,
             baseline: asset.baseline,
+            performedAt: new Date().toISOString().slice(0, 16),
             remarks: "",
         },
     });
@@ -73,6 +76,7 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
             osVersion: asset.osVersion ?? "",
             condition: asset.condition,
             baseline: asset.baseline,
+            performedAt: new Date().toISOString().slice(0, 16),
             remarks: "",
         });
     }
@@ -98,10 +102,12 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
             const payload: {
                 property: string;
                 new: string;
+                performedAt: string;
                 remarks?: string;
             } = {
                 property: data.fieldToUpdate,
                 new: newValue,
+                performedAt: new Date(data.performedAt).toISOString(),
             };
 
             if (data.remarks?.trim()) {
@@ -246,6 +252,28 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
                             )}
                         />
                     )}
+
+                    {/* Performed At */}
+                    <Controller
+                        control={form.control}
+                        name="performedAt"
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor="maintenance-performedAt">
+                                    Tanggal Pelaksanaan
+                                </FieldLabel>
+                                <input
+                                    id="maintenance-performedAt"
+                                    type="datetime-local"
+                                    {...field}
+                                    className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                                />
+                                {fieldState.invalid && (
+                                    <FieldError errors={[fieldState.error]} />
+                                )}
+                            </Field>
+                        )}
+                    />
 
                     {/* Remarks */}
                     <Controller
