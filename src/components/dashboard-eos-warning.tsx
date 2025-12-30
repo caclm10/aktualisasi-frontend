@@ -1,6 +1,5 @@
 import {
     AlertTriangleIcon,
-    CalendarIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
 } from "lucide-react";
@@ -107,7 +106,7 @@ function DashboardEosWarning() {
 
                             return (
                                 <TableRow key={asset.id} body>
-                                    <TableCell>
+                                    <TableCell className="whitespace-nowrap">
                                         <Link
                                             to={`/assets/${asset.id}`}
                                             className="text-primary font-medium hover:underline"
@@ -118,20 +117,14 @@ function DashboardEosWarning() {
                                     <TableCell>
                                         {asset.brand} {asset.model}
                                     </TableCell>
-                                    <TableCell>
-                                        <div className="flex items-center gap-1.5">
-                                            <CalendarIcon className="text-muted-foreground size-4" />
-                                            {eosDate.toLocaleDateString(
-                                                "id-ID",
-                                                {
-                                                    day: "numeric",
-                                                    month: "short",
-                                                    year: "numeric",
-                                                },
-                                            )}
-                                        </div>
+                                    <TableCell className="whitespace-nowrap">
+                                        {eosDate.toLocaleDateString("id-ID", {
+                                            day: "numeric",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className="whitespace-nowrap">
                                         <span
                                             className={cn(
                                                 "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",

@@ -6,6 +6,25 @@ function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+const datetTimeTextOptions: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+};
+
+function toDatetimeText(
+    date: Date,
+    options: Intl.DateTimeFormatOptions = datetTimeTextOptions,
+) {
+    let text = date.toLocaleString("id-ID", options);
+    text = text.replace(".", ":").replace(" ", " ");
+
+    return text;
+}
+
 export type ZInfer<T = any> = z.infer<T>;
 
-export { cn, z };
+export { cn, toDatetimeText, z };

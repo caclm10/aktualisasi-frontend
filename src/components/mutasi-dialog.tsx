@@ -88,7 +88,7 @@ function MutasiDialog({ asset, onMutasi }: MutasiDialogProps) {
         >
             <SheetTrigger
                 render={
-                    <Button variant="outline">
+                    <Button variant="soft-blue">
                         <MoveIcon />
                         Pindahkan
                     </Button>

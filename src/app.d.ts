@@ -26,8 +26,6 @@ declare global {
 
     type AssetCondition = "baik" | "rusak" | "rusak berat";
 
-    type AssetDeploymentStatus = "in stock" | "deployed" | "maintenance";
-
     type AssetBaseline =
         | "sesuai"
         | "tidak sesuai"
@@ -45,7 +43,6 @@ declare global {
         model: string;
 
         condition: AssetCondition;
-        deploymentStatus: AssetDeploymentStatus;
 
         ipVlan: string | null;
         vlan: string | null;

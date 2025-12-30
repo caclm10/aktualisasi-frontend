@@ -49,14 +49,7 @@ const columns: ColumnDef<Activity>[] = [
         id: "date",
         accessorFn: (row) => row.performedAt,
         header: "Tanggal",
-        cell: ({ row }) =>
-            new Date(row.original.performedAt).toLocaleString("id-ID", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-            }),
+        cell: ({ row }) => toDatetimeText(new Date(row.original.performedAt)),
         enableSorting: true,
     },
     {
@@ -76,7 +69,7 @@ const columns: ColumnDef<Activity>[] = [
         cell: ({ row }) => (
             <Link
                 to={`/assets/${row.original.assetId}`}
-                className="text-primary hover:underline"
+                className="text-primary whitespace-nowrap hover:underline"
             >
                 {row.original.asset?.hostname ?? "-"}
             </Link>

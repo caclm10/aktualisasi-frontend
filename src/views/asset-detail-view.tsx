@@ -2,6 +2,7 @@ import {
     CalendarIcon,
     CpuIcon,
     EditIcon,
+    ExternalLinkIcon,
     ImageIcon,
     NetworkIcon,
     ServerIcon,
@@ -256,7 +257,12 @@ function AssetDetailView() {
                                 value={
                                     asset.room
                                         ? `${asset.room.name} - ${asset.room.office?.name} (Lantai ${asset.room.floor})`
-                                        : "-"
+                                        : undefined
+                                }
+                                href={
+                                    asset.room?.office?.id
+                                        ? `/offices/${asset.room.office.id}`
+                                        : undefined
                                 }
                             />
                         </div>
@@ -384,17 +390,36 @@ function InfoItem({
     label,
     value,
     mono = false,
+    href,
 }: {
     label: string;
     value: string | null | undefined;
     mono?: boolean;
+    href?: string;
 }) {
+    const content = value ?? "-";
+
     return (
         <div>
             <p className="text-muted-foreground text-sm">{label}</p>
-            <p className={cn("font-medium", mono && "font-mono text-sm")}>
-                {value ?? "-"}
-            </p>
+            {href && value ? (
+                <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(
+                        "text-primary font-medium hover:underline",
+                        mono && "font-mono text-sm",
+                    )}
+                >
+                    {content}
+                    <ExternalLinkIcon className="ml-1 inline-block size-3.5 align-text-bottom" />
+                </a>
+            ) : (
+                <p className={cn("font-medium", mono && "font-mono text-sm")}>
+                    {content}
+                </p>
+            )}
         </div>
     );
 }

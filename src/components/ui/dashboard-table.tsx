@@ -38,17 +38,14 @@ function DashboardTable() {
                             {recentActivities.map((activity) => (
                                 <TableRow key={activity.id} body>
                                     <TableCell>
-                                        {new Date(
-                                            activity.createdAt,
-                                        ).toLocaleDateString("id-ID", {
-                                            day: "numeric",
-                                            month: "short",
-                                        })}
+                                        {toDatetimeText(
+                                            new Date(activity.performedAt),
+                                        )}
                                     </TableCell>
                                     <TableCell>
                                         <Link
                                             to={`/assets/${activity.assetId}`}
-                                            className="text-primary hover:underline"
+                                            className="text-primary whitespace-nowrap hover:underline"
                                         >
                                             {activity.asset?.hostname ?? "-"}
                                         </Link>

@@ -71,7 +71,6 @@ declare global {
   const DashboardEosWarning: typeof import('./components/dashboard-eos-warning').DashboardEosWarning
   const DashboardTable: typeof import('./components/ui/dashboard-table').DashboardTable
   const DashboardView: typeof import('./views/dashboard-view').DashboardView
-  const DeploymentStatusBadge: typeof import('./components/asset-list-table').DeploymentStatusBadge
   const DropdownMenu: typeof import('./components/ui/dropdown-menu').DropdownMenu
   const DropdownMenuCheckboxItem: typeof import('./components/ui/dropdown-menu').DropdownMenuCheckboxItem
   const DropdownMenuContent: typeof import('./components/ui/dropdown-menu').DropdownMenuContent
@@ -188,7 +187,7 @@ declare global {
   const cache: typeof import('react').cache
   const cacheSignal: typeof import('react').cacheSignal
   const cn: typeof import('./lib/utils').cn
-  const columns: typeof import('./components/data-table-demo').columns
+  const columns: typeof import("./components/data-table-demo").columns
   const createAssetFormSchema: typeof import('./schemas/asset-schema').createAssetFormSchema
   const createContext: typeof import('react').createContext
   const createOfficeFormSchema: typeof import('./schemas/office-schema').createOfficeFormSchema
@@ -205,6 +204,7 @@ declare global {
   const memo: typeof import('react').memo
   const setFormErrors: typeof import('./lib/forms').setFormErrors
   const startTransition: typeof import('react').startTransition
+  const toDatetimeText: typeof import('./lib/utils').toDatetimeText
   const toast: typeof import('sonner').toast
   const use: typeof import('react').use
   const useActionState: typeof import('react').useActionState

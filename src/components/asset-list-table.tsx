@@ -202,7 +202,6 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
             const roomName = row.original.room?.name?.toLowerCase() || "";
             const officeName =
                 row.original.room?.office?.name?.toLowerCase() || "";
-            const condition = row.original.condition?.toLowerCase() || "";
 
             return (
                 hostname.includes(search) ||
@@ -210,8 +209,7 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
                 model.includes(search) ||
                 serialNumber.includes(search) ||
                 roomName.includes(search) ||
-                officeName.includes(search) ||
-                condition.includes(search)
+                officeName.includes(search)
             );
         },
         state: {
@@ -233,8 +231,8 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
 
             <CardContent>
                 <div className="w-full">
-                    <div className="flex items-center gap-4 py-4">
-                        <div className="relative max-w-sm flex-1">
+                    <div className="flex flex-col gap-4 py-4 sm:flex-row sm:flex-wrap sm:items-center">
+                        <div className="relative flex-1 grow">
                             <SearchIcon className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                             <Input
                                 placeholder="Cari hostname, brand, model, serial number, lokasi..."
@@ -242,17 +240,64 @@ function AssetListTable({ data = [] }: AssetListTableProps) {
                                 onChange={(event) =>
                                     setGlobalFilter(event.target.value)
                                 }
-                                className="pl-9"
+                                className="max-w-sm pl-9"
                             />
                         </div>
+
                         <DropdownMenu>
                             <DropdownMenuTrigger
-                                render={
-                                    <Button
-                                        variant="outline"
-                                        className="ml-auto"
-                                    />
-                                }
+                                render={<Button variant="outline" />}
+                            >
+                                Kondisi
+                                <ChevronDown />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                                {(
+                                    ["baik", "rusak", "rusak berat"] as const
+                                ).map((condition) => {
+                                    const filterValue =
+                                        (table
+                                            .getColumn("condition")
+                                            ?.getFilterValue() as
+                                            | string[]
+                                            | undefined) ?? [];
+                                    const isChecked =
+                                        filterValue.includes(condition);
+                                    return (
+                                        <DropdownMenuCheckboxItem
+                                            key={condition}
+                                            checked={isChecked}
+                                            onCheckedChange={(checked) => {
+                                                const newValue = checked
+                                                    ? [
+                                                          ...filterValue,
+                                                          condition,
+                                                      ]
+                                                    : filterValue.filter(
+                                                          (v) =>
+                                                              v !== condition,
+                                                      );
+                                                table
+                                                    .getColumn("condition")
+                                                    ?.setFilterValue(
+                                                        newValue.length
+                                                            ? newValue
+                                                            : undefined,
+                                                    );
+                                            }}
+                                        >
+                                            <ConditionBadge
+                                                condition={condition}
+                                            />
+                                        </DropdownMenuCheckboxItem>
+                                    );
+                                })}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger
+                                render={<Button variant="outline" />}
                             >
                                 Kolom <ChevronDown />
                             </DropdownMenuTrigger>
@@ -413,32 +458,4 @@ function ConditionBadge({ condition }: { condition: AssetCondition }) {
     );
 }
 
-function DeploymentStatusBadge({ status }: { status: AssetDeploymentStatus }) {
-    const variants: Record<AssetDeploymentStatus, string> = {
-        "in stock":
-            "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400",
-        deployed:
-            "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-        maintenance:
-            "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400",
-    };
-
-    const labels: Record<AssetDeploymentStatus, string> = {
-        "in stock": "In Stock",
-        deployed: "Deployed",
-        maintenance: "Maintenance",
-    };
-
-    return (
-        <span
-            className={cn(
-                "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
-                variants[status],
-            )}
-        >
-            {labels[status]}
-        </span>
-    );
-}
-
-export { AssetListTable, ConditionBadge, DeploymentStatusBadge };
+export { AssetListTable, ConditionBadge };

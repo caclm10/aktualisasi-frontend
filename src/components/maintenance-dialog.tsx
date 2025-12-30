@@ -134,7 +134,7 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
         >
             <SheetTrigger
                 render={
-                    <Button variant="outline">
+                    <Button variant="soft-violet">
                         <WrenchIcon />
                         Maintenance
                     </Button>
