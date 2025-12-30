@@ -196,6 +196,7 @@ declare global {
   const cva: typeof import('class-variance-authority').cva
   const description: typeof import('./components/chart-area-interactive').description
   const forwardRef: typeof import('react').forwardRef
+  const getLocalDateTimeString: typeof import('./lib/utils').getLocalDateTimeString
   const http: typeof import('./lib/http').http
   const isHttpError: typeof import('./lib/http').isHttpError
   const isValidationError: typeof import('./lib/errors').isValidationError

@@ -139,7 +139,7 @@ export function useAssetDetail(id: string) {
         } catch (error) {
             if (isHttpError(error)) {
                 if (error.response?.status === 422) {
-                    throw new ValidationError(error.response?.data.errors);
+                    throw new ValidationError(error.response?.data.data);
                 }
                 toast.error(error.response?.data.message);
             }

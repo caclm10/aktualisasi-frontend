@@ -25,6 +25,13 @@ function toDatetimeText(
     return text;
 }
 
+function getLocalDateTimeString() {
+    const now = new Date();
+    const offset = now.getTimezoneOffset();
+    const localDate = new Date(now.getTime() - offset * 60 * 1000);
+    return localDate.toISOString().slice(0, 16);
+}
+
 export type ZInfer<T = any> = z.infer<T>;
 
-export { cn, toDatetimeText, z };
+export { cn, getLocalDateTimeString, toDatetimeText, z };

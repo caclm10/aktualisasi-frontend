@@ -29,9 +29,7 @@ function MutasiDialog({ asset, onMutasi }: MutasiDialogProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [selectedRoomId, setSelectedRoomId] = useState("");
-    const [performedAt, setPerformedAt] = useState(
-        new Date().toISOString().slice(0, 16),
-    );
+    const [performedAt, setPerformedAt] = useState(getLocalDateTimeString());
     const [remarks, setRemarks] = useState("");
     const [error, setError] = useState<{ message?: string } | undefined>(
         undefined,
@@ -41,7 +39,7 @@ function MutasiDialog({ asset, onMutasi }: MutasiDialogProps) {
 
     function resetForm() {
         setSelectedRoomId("");
-        setPerformedAt(new Date().toISOString().slice(0, 16));
+        setPerformedAt(getLocalDateTimeString());
         setRemarks("");
         setError(undefined);
     }

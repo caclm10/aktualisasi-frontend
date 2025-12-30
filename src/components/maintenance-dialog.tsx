@@ -18,11 +18,23 @@ import {
 } from "@/components/ui/sheet";
 
 // Tipe field yang bisa di-update
-type MaintenanceFieldType = "osVersion" | "condition" | "baseline" | "";
+type MaintenanceFieldType =
+    | "serialNumber"
+    | "osVersion"
+    | "condition"
+    | "baseline"
+    | "";
 
 // Schema untuk maintenance form
 const maintenanceFormSchema = z.object({
-    fieldToUpdate: z.enum(["osVersion", "condition", "baseline", ""]),
+    fieldToUpdate: z.enum([
+        "serialNumber",
+        "osVersion",
+        "condition",
+        "baseline",
+        "",
+    ]),
+    serialNumber: z.string(),
     osVersion: z.string(),
     condition: z.enum(["baik", "rusak", "rusak berat"]),
     baseline: z.enum(["sesuai", "tidak sesuai", "pengecualian", "belum dicek"]),
@@ -43,6 +55,7 @@ interface MaintenanceDialogProps {
 }
 
 const fieldOptions: { value: MaintenanceFieldType; label: string }[] = [
+    { value: "serialNumber", label: "Serial Number" },
     { value: "osVersion", label: "Versi OS" },
     { value: "condition", label: "Kondisi" },
     { value: "baseline", label: "Baseline" },
@@ -59,10 +72,11 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
         resolver: zodResolver(maintenanceFormSchema),
         defaultValues: {
             fieldToUpdate: "",
+            serialNumber: asset.serialNumber ?? "",
             osVersion: asset.osVersion ?? "",
             condition: asset.condition,
             baseline: asset.baseline,
-            performedAt: new Date().toISOString().slice(0, 16),
+            performedAt: getLocalDateTimeString(),
             remarks: "",
         },
     });
@@ -73,10 +87,11 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
     function resetForm() {
         form.reset({
             fieldToUpdate: "",
+            serialNumber: asset.serialNumber ?? "",
             osVersion: asset.osVersion ?? "",
             condition: asset.condition,
             baseline: asset.baseline,
-            performedAt: new Date().toISOString().slice(0, 16),
+            performedAt: getLocalDateTimeString(),
             remarks: "",
         });
     }
@@ -91,7 +106,9 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
         try {
             // Ambil value berdasarkan field yang dipilih
             let newValue: string = "";
-            if (data.fieldToUpdate === "osVersion") {
+            if (data.fieldToUpdate === "serialNumber") {
+                newValue = data.serialNumber;
+            } else if (data.fieldToUpdate === "osVersion") {
                 newValue = data.osVersion;
             } else if (data.fieldToUpdate === "condition") {
                 newValue = data.condition;
@@ -118,7 +135,29 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
             setIsOpen(false);
             resetForm();
         } catch (error) {
-            setFormErrors(error, form.setError);
+            if (isValidationError<Record<string, string[]>>(error)) {
+                const fields = error.fields;
+                console.log(error.fields);
+                Object.keys(fields).forEach((key) => {
+                    console.log(key);
+                    const messages = fields[key];
+                    if (messages && messages.length > 0) {
+                        // Map 'new' ke field yang sesuai
+                        const fieldName =
+                            key === "new" ? data.fieldToUpdate : key;
+
+                        if (fieldName) {
+                            form.setError(
+                                fieldName as keyof MaintenanceFormInput,
+                                {
+                                    message: messages[0],
+                                    type: "manual",
+                                },
+                            );
+                        }
+                    }
+                });
+            }
         } finally {
             setIsSubmitting(false);
         }
@@ -181,6 +220,21 @@ function MaintenanceDialog({ asset, onMaintenance }: MaintenanceDialogProps) {
                     />
 
                     {/* Conditional Input based on selected field */}
+                    {watchFieldToUpdate === "serialNumber" && (
+                        <Controller
+                            control={form.control}
+                            name="serialNumber"
+                            render={({ field, fieldState }) => (
+                                <FieldInput
+                                    label="Serial Number Baru"
+                                    field={field}
+                                    fieldState={fieldState}
+                                    placeholder="Masukkan serial number baru"
+                                />
+                            )}
+                        />
+                    )}
+
                     {watchFieldToUpdate === "osVersion" && (
                         <Controller
                             control={form.control}
