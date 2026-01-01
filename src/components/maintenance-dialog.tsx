@@ -38,7 +38,7 @@ const maintenanceFormSchema = z.object({
     osVersion: z.string(),
     condition: z.enum(["baik", "rusak", "rusak berat"]),
     baseline: z.enum(["sesuai", "tidak sesuai", "pengecualian", "belum dicek"]),
-    performedAt: z.string().min(1, "Tanggal pelaksanaan harus diisi"),
+    performedAt: z.string().min(1, "Tanggal pelaksanaan wajib diisi"),
     remarks: z.string(),
 });
 

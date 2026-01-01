@@ -26,7 +26,7 @@ export function useOffice() {
             return response.data.data.id;
         } catch (error) {
             if (isHttpError(error) && error.response?.status === 422) {
-                throw new ValidationError(error.response.data.errors);
+                throw new ValidationError(error.response.data.data);
             }
 
             throw error;
