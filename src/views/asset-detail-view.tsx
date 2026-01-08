@@ -364,7 +364,7 @@ function AssetDetailView() {
                                 value={asset.purchaseYear?.toString()}
                             />
                             <InfoItem
-                                label="Harga"
+                                label="Harga Perolehan"
                                 value={
                                     asset.price
                                         ? `Rp ${asset.price.toLocaleString("id-ID")}`

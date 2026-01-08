@@ -12,6 +12,13 @@ function OfficeDetailView() {
     const { office, isLoading, deleteOffice, deleteRoom } = useOfficeDetail(
         id!,
     );
+    const navigate = useNavigate();
+
+    async function handleDeleteOffice() {
+        await deleteOffice();
+
+        navigate("/offices");
+    }
 
     if (isLoading) {
         return (
@@ -82,7 +89,7 @@ function OfficeDetailView() {
                                     <AlertDialogCancel>Batal</AlertDialogCancel>
                                     <AlertDialogAction
                                         variant="destructive"
-                                        onClick={deleteOffice}
+                                        onClick={handleDeleteOffice}
                                     >
                                         Hapus
                                     </AlertDialogAction>

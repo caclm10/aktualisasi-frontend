@@ -329,7 +329,7 @@ function AssetCreateForm() {
                                     name="price"
                                     render={({ field, fieldState }) => (
                                         <FieldInput
-                                            label="Harga (Rp)"
+                                            label="Harga Perolehan (Rp)"
                                             field={field}
                                             fieldState={fieldState}
                                             placeholder="10000000"
